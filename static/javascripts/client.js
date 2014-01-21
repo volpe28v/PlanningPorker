@@ -7,7 +7,7 @@ var COOKIE_CSS_NAME = "dev_hub_css_name";
 var COOKIE_EXPIRES = 365;
 var CSS_DEFAULT_NAME = "bootstrap.min.css";
 var TITLE_ORG = document.title;
-var CODE_MIN_HEIGHT = 700;
+var CODE_MIN_HEIGHT = 100;
 var CODE_OUT_ADJUST_HEIGHT = 200;
 var CODE_INDEX_ADJUST_HEIGHT = 50;
 var CODE_ADJUST_HEIGHT = 100;
@@ -45,9 +45,6 @@ $(function() {
 });
 
 function init_chat(){
-  $('#chat_area').perfectScrollbar({
-    wheelSpeed: 40
-  });
   $('#list').on('click', '.remove_msg', function(){
     var id = "#" + $(this).closest('li').attr('id');
     var data_id = $(this).closest('li').data('id');
@@ -62,66 +59,14 @@ function init_chat(){
 }
 
 function init_sharememo(){
-  $('#memo_area').perfectScrollbar({
-    wheelSpeed: 40,
-    useKeyboard: false
-  });
-
-  for (var i = SHARE_MEMO_NUMBER; i > 1; i--){
-    $("#share_memo_tab_top").after($('<li/>').addClass("share-memo-tab").attr("data-no",i));
-    $("#share_memo_1").after($('<div/>').attr('id',"share_memo_" + i).attr("data-no",i).addClass("share-memo tab-pane"));
-    $("#memo_number_option_top").after($('<option/>').attr('value',i).html(i));
-  }
-  $("#scroll_top").click(function(){
-    $('#memo_area').animate({ scrollTop: 0 }, 'fast');
-  });
-
-  $("#share_zen").click(function(){
-    if ($("#memo_area").hasClass("memo-area")){
-      $("#chat_area").fadeOut(function(){
-        $("#memo_area").removeClass("memo-area span7");
-        $("#memo_area").addClass("memo-area-zen span11");
-      });
-    }else{
-      $("#memo_area").removeClass("memo-area-zen span11");
-      $("#memo_area").addClass("memo-area span7");
-      $("#chat_area").fadeIn();
-    }
-  });
-
-  $(".share-memo-tab").each(function(){
-    var no = $(this).data('no');
-    $(this).append(
-      $('<a/>').html(no + " ").addClass("share-memo-tab-elem")
-               .attr('id',"share_memo_tab_" + no)
-               .attr('href',"#share_memo_" + no)
-               .attr('data-toggle',"tab")
-               .attr('data-no',no)
-               .css('display','none').append(
-        $('<span/>')).append(
-        $('<div/>').addClass("writer")).append(
-        $('<div/>').append(
-          $('<span/>').addClass("timestamp"))));
-  });
+  var i = 1;
+  $("#share-memo").after($('<div/>').attr('id',"share_memo_" + i).attr("data-no",i).addClass("share-memo tab-pane"));
+  $("#memo_number_option_top").after($('<option/>').attr('value',i).html(i));
 
   $(".share-memo").each(function(){
     $(this).append(
-      $('<button/>').addClass("sync-text btn btn-primary").css("float","left").html('<i class="icon-edit icon-white"></i> Edit')).append(
-      $('<button/>').addClass("fix-text btn btn-info").css("float","left").css("display","none").html('<i class="icon-edit icon-white"></i> Done')).append(
-      $('<button/>').addClass("diff-done btn btn-info").css("float","left").css("display","none").html('<i class="icon-resize-vertical icon-white"></i> Done')).append(
-      $('<div/>').addClass("btn-group").css("float","left").append(
-        $('<a/>').addClass("btn dropdown-toggle index-button").attr('data-toggle',"dropdown").attr('href',"#").html('<i class="icon-align-left"></i> Index ').append(
-          $('<span/>').addClass("caret"))).append(
-        $('<ul/>').addClass("dropdown-menu index-list"))).append(
-      $('<div/>').addClass("btn-group").css("float","left").append(
-        $('<a/>').addClass("btn dropdown-toggle diff-button").attr('data-toggle',"dropdown").attr('href',"#").html('<i class="icon-resize-vertical"></i> Diff ').append(
-          $('<span/>').addClass("caret"))).append(
-        $('<ul/>').addClass("dropdown-menu diff-list"))).append(
-      $('<span/>').addClass("text-writer label label-info")).append(
-      $('<span/>').addClass("checkbox-count").css("display","none")).append(
       $('<textarea/>').addClass("code code-unselect").css("display","none").attr("placeholder", "Write here")).append(
-      $('<pre/>').addClass("text-base-style").append($('<div/>').addClass("code-out"))).append(
-      $('<div/>').addClass("diff-view").css("display","none"));
+      $('<pre/>').addClass("text-base-style").append($('<div/>').addClass("code-out")));
   });
 }
 
@@ -194,13 +139,11 @@ function init_websocket(){
 
   $('#form').submit(function() {
     var name = $('#name').val();
-    var message = $('#message').val();
     $.cookie(COOKIE_NAME,name,{ expires: COOKIE_EXPIRES });
 
-    if ( message && name ){
+    if ( name ){
       login_name = name;
-      socket.emit('message', {name:name, msg:message});
-      $('#message').attr('value', '');
+      socket.emit('message', {name:name, msg:""});
     }
     return false;
   });
