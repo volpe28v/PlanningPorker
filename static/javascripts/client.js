@@ -118,7 +118,6 @@ function init_websocket(){
     if ($('#login_list').html() != out_list){
       $('#login_list').html(out_list);
       $('#login_list').fadeIn();
-      suggest_start(login_list);
 
       // add click event for each login names.
       $('#login_list .login-elem').click(function(){
