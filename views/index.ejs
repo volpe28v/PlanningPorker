@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>DevHub <%= title_name %></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script type="text/javascript" src="/javascripts/html5.js"></script>
+    <![endif]-->
+
+    <script type="text/javascript" src="/javascripts/jquery.min.js"></script>
+    <script type="text/javascript" src="/javascripts/jquery-ui.js"></script>
+    <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+    <script type="text/javascript" src="/javascripts/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/javascripts/perfect-scrollbar-0.4.5.with-mousewheel.min.js"></script>
+    <script type="text/javascript" src="/javascripts/devhub.min.js"></script>
+    <link href="/stylesheets/perfect-scrollbar-0.4.5.min.css" media="screen" rel="stylesheet" type="text/css" />
+    <link href="/stylesheets/devhub.min.css" media="screen" rel="stylesheet" type="text/css" />
+    <link id="devhub-style" href="/stylesheets/bootstrap.min.css" media="screen" rel="stylesheet" type="text/css" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  </head>
+
+  <body id="body-main" style="padding-top: 0px">
+    <div class="modal hide" id="name_in">
+      <div class="modal-header">
+        <h3>DevHub</h3>
+      </div>
+      <div class="modal-body">
+        <p>Please type your name.</p>
+        <form id="login_form">
+          <input type="text" id="login_name" class="span2" placeholder="Name"/>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button id="login" class="btn btn-primary">Login</button>
+      </div>
+    </div>
+
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <a class="brand" href="/">DevHub <%= title_name %></a>
+          <ul class="nav">
+            <li class="active">
+            </li>
+            <li class="dropdown">
+              <a href="#"
+                 class="dropdown-toggle"
+                 data-toggle="dropdown">
+                 Style 
+                <b class="caret"></b>
+              </a>
+              <ul class="dropdown-menu">
+                <li><a onclick="change_style('bootstrap.min.css');return false;" href="#">default</a></li>
+                <li><a onclick="change_style('bootstrap.journal.css');return false;" href="#">journal</a></li>
+                <li><a onclick="change_style('bootstrap.united.css');return false;" href="#">united</a></li>
+              </ul>
+            </li>
+          </ul>
+
+          <ul class="nav pull-right">
+            <li><a id="scroll_top" href="#"><i class="icon-arrow-up"></i></a></li>
+            <li><a id="share_zen" href="#"><i class="icon-fullscreen"></i></a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="container-fluid">
+      <div class="row-fluid">
+        <div id="chat_area" class="span5">
+          <div class="area-inner">
+            <div class="dummy-top-space"></div>
+            <img id="login_list_loader" src="/img/loader.gif"/>
+            <div id="login_list" style="display:none"></div>
+            <form id="form" class="form-inline">
+              <table>
+                <tr>
+                  <td><input type="text" name="name" id="name" class="span1" placeholder="Name"/></td>
+                  <td style="width: 100%; padding: 0 10px 0 0;">
+                    <input type="text" name="message" id="message" style="width: 100%;" autocomplete="off" placeholder="Message"/>
+                    <div id="suggest" style="display: none;"></div>
+                  </td>
+                  <td><input type="submit" value="Send" class="btn btn-small btn-primary"/></td>
+                  <td><span id="pomo" class="btn btn-small btn-warning">Pomo</span></td>
+                </tr>
+              </table>
+            </form>
+            <div id="chat_body" class="text-base-style">
+              <ul id="list"></ul>
+            </div>
+          </div>
+        </div>
+
+        <div id="memo_area" class="span7 memo-area">
+          <div class="area-inner">
+            <div class="dummy-top-space"></div>
+            <div id="share-memo">
+              <div class="tabbable tabs-left">
+                <ul class="nav nav-tabs">
+                  <li id="share_memo_tab_top" class="share-memo-tab active" data-no="1"></li>
+
+                  <li><a id="settings_tab" href="#settings_memo" data-toggle="tab">Settings</a></li>
+                </ul>
+
+                <div class="tab-content">
+                  <div id="share_memo_1" data-no="1" class="share-memo tab-pane active"></div>
+
+                  <div id="settings_memo" class="tab-pane">
+                    <form class="form-horizontal">
+                      <div class="control-group">
+                        <label class="control-label">ShareMemo number</label>
+                        <div class="controls">
+                          <select id="memo_number" class="span1">
+                            <option id="memo_number_option_top" value="1">1</option>
+                          </select>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <footer>
+            <span>© 2012 Naoki KODAMA. All rights reserved.</span>
+            </footer>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+
+

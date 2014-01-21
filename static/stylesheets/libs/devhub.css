@@ -1,0 +1,431 @@
+body{
+  width : 100%;
+  margin : 0px;
+  overflow : hidden;
+}
+
+#chat_area{
+  height : 100%;
+  top : 0px;
+  left : 5px;
+  position : absolute;
+  overflow: hidden;
+}
+
+.memo-area{
+  height : 100%;
+  top : 0px;
+  left: 40%;
+  position : absolute;
+  overflow: hidden;
+}
+
+.memo-area-zen{
+  height : 100%;
+  top : 0px;
+  left : 5px;
+  position : absolute;
+  overflow: hidden;
+}
+
+.area-inner {
+  margin-right: 12px;
+  margin-left: 8px;
+}
+
+.dummy-top-space {
+  height: 40px;
+}
+
+a {
+  color: dodgerblue;
+}
+
+a:hover {
+  color: deeppink;
+}
+
+.msg {
+  color: #555;
+}
+
+.msg_ext {
+  color: #aaa;
+}
+
+.msg_pomo {
+  color: orange;
+}
+
+.date {
+  color: #ccc;
+  float: right;
+  margin-right: 14px;
+}
+
+.target_msg_date {
+  color: wheat;
+  float: right;
+  margin-right: 14px;
+}
+
+.own_msg_date {
+  color: paleturquoise;
+  float: right;
+}
+
+#suggest {
+  position: absolute;
+  background-color: #FFFFFF;
+  border: 1px solid #CCCCFF;
+  width: 252px;
+}
+
+#suggest div {
+  padding: 1px;
+  display: block;
+  width: 250px;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+#suggest div.select{
+  color: #FFFFFF;
+  background-color: #3366FF;
+}
+
+#suggest div.over{
+  background-color: #99CCFF;
+}
+
+#sequence {
+  width: 100%;
+  background-color: #fff;
+  margin-bottom: 5px;
+}
+
+#share-memo {
+  padding-top: 10px;
+}
+
+.share-memo pre {
+  margin-top: 15px;
+}
+
+.index-button {
+  margin-left: 5px !important;
+}
+
+.text-base-style {
+  background-color: #fefefe;
+  border: 2px solid rgba(0, 0, 0, 0.1);
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+  -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+}
+
+.text-highlight {
+  background-color: yellow;
+}
+
+.code {
+  font-family: Menlo,Monaco,"Courier New",monospace;
+  width: 96%;
+  height: 700px;
+  padding: 5px;
+  background-color: #fefefe;
+  margin-top: 2px;
+  margin-bottom: 2px;
+}
+
+.code-out {
+  width: 100%;
+  min-height: 700px;
+  margin-top: 0px;
+  line-height: 14px;
+}
+
+.code-out table{
+  width: 100%;
+}
+
+.code-out h1,
+.code-out h2,
+.code-out h3{
+  margin: 0 0 0px;
+  padding: 0;
+  font-weight: bold;
+  line-height: 1.5;
+  cursor: text;
+  position: relative;
+}
+
+.code-out h1{
+  font-size: 2.2em;
+  border-bottom: 1px solid #ddd;
+}
+
+.code-out h2 {
+  font-size: 1.7em;
+  border-bottom: 1px solid #eee;
+}
+
+.code-out h3 {
+  font-size: 1.4em;
+}
+
+.code-out h4 {
+  font-size: 1.2em;
+}
+
+.code-out {
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.diff-view {
+  min-height: 700px;
+}
+
+#name, #message {
+  background-color: aliceblue;
+}
+
+#form {
+  margin: 2px 0px 6px 0px;
+}
+
+#chat_body{
+  min-height: 620px;
+  padding: 4px 2px;
+  overflow-y: auto;
+  margin-bottom: 70px;
+}
+
+#list {
+  margin: 0px;
+  padding: 0px;
+  list-style-type: none;
+}
+
+#list li{
+  color: #555;
+  line-height: 21px;
+  margin: 0px;
+  padding: 0px;
+}
+
+.msg_text{
+  font-weight: bold;
+}
+
+.target_msg{
+  background-color: cornsilk;
+}
+
+.own_msg{
+  background-color: lightcyan;
+}
+
+#login_list {
+  width: 100%;
+  font-size: 11px;
+  margin-top: 10px;
+  margin-bottom: 5px;
+}
+
+.login-name-base,
+.login-elem
+{
+  font-weight: bold;
+  font-size: 12px;
+  padding: 2px 4px;
+  margin: 1px 3px 1px 1px;
+  border-radius: 4px;        /* CSS3草案 */  
+  -webkit-border-radius: 4px;    /* Safari,Google Chrome用 */  
+  -moz-border-radius: 4px;   /* Firefox用 */  
+  color: white;
+  cursor: pointer;
+  -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2),0 1px 2px rgba(0, 0, 0, 0.05);
+  -moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2),0 1px 2px rgba(0, 0, 0, 0.05);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2),0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.login-name-base:hover,
+.login-elem:hover
+{
+  border: solid 1px lightsteelblue;
+}
+
+
+.login-name{
+  background-color: lightsteelblue;
+}
+
+.login-name0{
+  background-color: #999;
+}
+
+.login-name1{
+  background-color: #2e8b57;
+}
+
+.login-name2{
+  background-color: #aa4f37;
+}
+
+.login-name3{
+  background-color: #a52a2a;
+}
+
+.login-name4{
+  background-color: #bc763c;
+}
+
+.login-name5{
+  background-color: #26499d;
+}
+
+.login-name6{
+  background-color: #c89932;
+}
+
+.login-name7{
+  background-color: #69821b;
+}
+
+.login-name8{
+  background-color: #522886;
+}
+
+.login-name9{
+  background-color: #866629;
+}
+
+.login-name-pomo{
+  background-color: tomato;
+}
+
+.login-name-pomosys{
+  color: #baa;
+  background-color: mistyrose;
+}
+
+.login-name-system{
+  color: #baa;
+  background: -webkit-gradient(linear, left top, left bottom, from(ghostwhite), to(gainsboro));
+  background: -moz-linear-gradient(top, ghostwhite,gainsboro);
+}
+
+.login-name-ext{
+  color: #baa;
+  background-color: lightgreen;
+}
+
+.pomo-min{
+  color: mintcream;
+}
+
+.text-writer {
+  margin: 6px 0px 4px 5px;
+}
+
+.update-log-notify {
+  margin: 6px 0px 4px 5px;
+}
+
+.checkbox-count {
+  float: right;
+  font-size: 24px;
+  font-weight: bold;
+  color: #b7282e;
+}
+
+.checkbox-count-done {
+  color: #228b22;
+}
+
+.restore_button {
+  margin: 0 0 0 4px;
+}
+
+.no_favo_star {
+  color: gray;
+  text-decoration: none;
+  cursor: pointer;
+  margin: 0 0 0 4px;
+}
+
+.favo_star {
+  color: orange;
+  text-decoration: none;
+  cursor: pointer;
+  margin: 0 0 0 4px;
+}
+
+.remove_text {
+  margin: 0 5px 0 0;
+  float: right;
+  color: gray;
+  font-size: 16px;
+}
+
+.remove_text:hover {
+  color: red;
+}
+
+.remove-area {
+  width: 20px !important;
+}
+
+.remove_msg {
+  margin: 0 3px 0 5px;
+  color: gray;
+  font-size: 12px;
+  float: right;
+  cursor: pointer;
+}
+
+.remove_msg:hover {
+  color: red;
+}
+
+#history_logs dt, #current_log dt{
+  margin: 0px 0px 2px 4px;
+}
+
+.silent-name {
+  color: #BBB;
+  margin: 4px 0px 0px 10px;
+  font-size: 12px;
+}
+
+.writing-name {
+  color: red !important;
+  font-weight: bold !important;
+}
+
+.timestamp {
+  color: #BBB;
+  margin: 4px 0px 0px 20px;
+  font-size: 10px;
+}
+
+footer {
+  width: 100%;
+  margin-top: 4px;
+  padding: 0px 0;
+  text-align: right;
+  margin-bottom: 20px;
+}
+
+footer span {
+  display: block;
+  margin-right: 30px;
+  color: #888;
+  font-size: 12px;
+}
+
