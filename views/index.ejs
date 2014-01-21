@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>DevHub <%= title_name %></title>
+    <title>PlanningPorker</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
@@ -41,7 +41,7 @@
   <body id="body-main" style="padding-top: 0px">
     <div class="modal hide" id="name_in">
       <div class="modal-header">
-        <h3>DevHub</h3>
+        <h3>PlanningPorker</h3>
       </div>
       <div class="modal-body">
         <p>Please type your name.</p>
@@ -54,90 +54,67 @@
       </div>
     </div>
 
-    <div class="navbar navbar-fixed-top">
-      <div class="navbar-inner">
-        <div class="container-fluid">
-          <a class="brand" href="/">PlanningPorker<%= title_name %></a>
-          <ul class="nav">
-            <li class="active">
-            </li>
-            <li class="dropdown">
-              <a href="#"
-                 class="dropdown-toggle"
-                 data-toggle="dropdown">
-                 Style 
-                <b class="caret"></b>
-              </a>
-            </li>
-          </ul>
-
-          <ul class="nav pull-right">
-            <li><a id="scroll_top" href="#"><i class="icon-arrow-up"></i></a></li>
-            <li><a id="share_zen" href="#"><i class="icon-fullscreen"></i></a></li>
-          </ul>
-        </div>
-      </div>
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+      <a class="navbar-brand" href="#">PlanningPorker</a>
     </div>
 
-    <div class="container-fluid">
-      <div class="row-fluid">
-        <div id="chat_area" class="span5">
-          <div class="area-inner">
-            <div class="dummy-top-space"></div>
-            <img id="login_list_loader" src="/img/loader.gif"/>
-            <div id="login_list" style="display:none"></div>
-            <form id="form" class="form-inline">
-              <table>
-                <tr>
-                  <td><input type="text" name="name" id="name" class="span1" placeholder="Name"/></td>
-                  <td style="width: 100%; padding: 0 10px 0 0;">
-                    <input type="text" name="message" id="message" style="width: 100%;" autocomplete="off" placeholder="Message"/>
-                    <div id="suggest" style="display: none;"></div>
-                  </td>
-                  <td><input type="submit" value="Send" class="btn btn-small btn-primary"/></td>
-                  <td><span id="pomo" class="btn btn-small btn-warning">Pomo</span></td>
-                </tr>
-              </table>
-            </form>
-            <div id="chat_body" class="text-base-style">
-              <ul id="list"></ul>
-            </div>
+    <div class="row">
+      <div id="chat_area" class="col-xs-5">
+        <div class="area-inner">
+          <div class="dummy-top-space"></div>
+          <img id="login_list_loader" src="/img/loader.gif"/>
+          <div id="login_list" style="display:none"></div>
+          <form id="form" class="form-inline">
+            <table>
+              <tr>
+                <td><input type="text" name="name" id="name" class="span1" placeholder="Name"/></td>
+                <td style="width: 100%; padding: 0 10px 0 0;">
+                  <input type="text" name="message" id="message" style="width: 100%;" autocomplete="off" placeholder="Message"/>
+                  <div id="suggest" style="display: none;"></div>
+                </td>
+                <td><input type="submit" value="Send" class="btn btn-small btn-primary"/></td>
+                <td><span id="pomo" class="btn btn-small btn-warning">Pomo</span></td>
+              </tr>
+            </table>
+          </form>
+          <div id="chat_body" class="text-base-style">
+            <ul id="list"></ul>
           </div>
         </div>
+      </div>
 
-        <div id="memo_area" class="span7 memo-area">
-          <div class="area-inner">
-            <div class="dummy-top-space"></div>
-            <div id="share-memo">
-              <div class="tabbable tabs-left">
-                <ul class="nav nav-tabs">
-                  <li id="share_memo_tab_top" class="share-memo-tab active" data-no="1"></li>
+      <div id="memo_area" class="col-xs-7 memo-area">
+        <div class="area-inner">
+          <div class="dummy-top-space"></div>
+          <div id="share-memo">
+            <div class="tabbable tabs-left">
+              <ul class="nav nav-tabs">
+                <li id="share_memo_tab_top" class="share-memo-tab active" data-no="1"></li>
 
-                  <li><a id="settings_tab" href="#settings_memo" data-toggle="tab">Settings</a></li>
-                </ul>
+                <li><a id="settings_tab" href="#settings_memo" data-toggle="tab">Settings</a></li>
+              </ul>
 
-                <div class="tab-content">
-                  <div id="share_memo_1" data-no="1" class="share-memo tab-pane active"></div>
+              <div class="tab-content">
+                <div id="share_memo_1" data-no="1" class="share-memo tab-pane active"></div>
 
-                  <div id="settings_memo" class="tab-pane">
-                    <form class="form-horizontal">
-                      <div class="control-group">
-                        <label class="control-label">ShareMemo number</label>
-                        <div class="controls">
-                          <select id="memo_number" class="span1">
-                            <option id="memo_number_option_top" value="1">1</option>
-                          </select>
-                        </div>
+                <div id="settings_memo" class="tab-pane">
+                  <form class="form-horizontal">
+                    <div class="control-group">
+                      <label class="control-label">ShareMemo number</label>
+                      <div class="controls">
+                        <select id="memo_number" class="span1">
+                          <option id="memo_number_option_top" value="1">1</option>
+                        </select>
                       </div>
-                    </form>
-                  </div>
+                    </div>
+                  </form>
                 </div>
               </div>
             </div>
-            <footer>
-            <span>© 2012 Naoki KODAMA. All rights reserved.</span>
-            </footer>
           </div>
+          <footer>
+          <span>© 2014 Naoki KODAMA. All rights reserved.</span>
+          </footer>
         </div>
       </div>
     </div>
