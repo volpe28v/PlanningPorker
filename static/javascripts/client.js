@@ -20,6 +20,7 @@ var newest_count = 0;
 
 $(function() {
   init_chat();
+  init_number();
   init_sharememo();
   init_websocket();
 
@@ -27,12 +28,14 @@ $(function() {
   $("#devhub-style").attr('href','/stylesheets/' + css_name );
 
   if ( $.cookie(COOKIE_NAME) == null ){
+    /*
     setTimeout(function(){
       $('#name_in').modal("show");
       setTimeout(function(){
           $('#login_name').focus();
         },500);
       },500);
+    */
   }else{
     login_name = $.cookie(COOKIE_NAME);
     $('#name').val(login_name);
@@ -55,6 +58,16 @@ function init_chat(){
     var name = $(this).text();
     $('#message').val($('#message').val() + " @" + name + "さん ");
     $('#message').focus();
+  });
+}
+
+function init_number(){
+  $('.number-list').on('click', 'button', function(){
+    console.log($(this).html());
+
+    var name = $('#name').val();
+    var socket = io.connect('/');
+    socket.emit('number', {name:name, number:$(this).html()});
   });
 }
 
@@ -101,19 +114,11 @@ function init_websocket(){
 
     var out_list = "";
     for (var i = 0; i < login_list.length; ++i){
-      var login_elem = "";
-      var place = "";
-      if ( login_list[i].place != "" ){
-        place = "@" + login_list[i].place;
-      }
-      if ( login_list[i].pomo_min > 0 ){
-        login_elem = '<span class="login-elem login-name-pomo"><span class="name">' + login_list[i].name + '</span>' + place + ' <span class="pomo-min">' + login_list[i].pomo_min + 'min</span></span>'
-      }else{
-        login_elem = '<span class="login-elem login-name' + get_color_id_by_name_id(login_list[i].id) + '"><span class="name">' + login_list[i].name + '</span>' + place + '</span>'
-      }
+      var number = login_list[i].number ? login_list[i].number : "&nbsp;";
+      var login_elem = '<li><div class="login-elem login-name' + get_color_id_by_name_id(login_list[i].id) + '"><div class="name">' + login_list[i].name + '</div><div class="number">' + number + '</div></div></li>';
       out_list += login_elem + "<wbr>";
     }
-    out_list = "<nobr>" + out_list + "</nobr>";
+    out_list = '<div class="list"><ul>' + out_list + "</ul></div>";
 
     if ($('#login_list').html() != out_list){
       $('#login_list').html(out_list);

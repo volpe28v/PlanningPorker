@@ -125,14 +125,6 @@ io.sockets.on('connection', function(client) {
 
     client.emit('list', client_info.ip_list());
     client.broadcast.emit('list', client_info.ip_list());
-
-    chat_log.size(function(size){
-      if ( size > 0 ){
-        chat_log.get(function(logs){
-          client.emit('latest_log',logs);
-        });
-      }
-    });
   });
 
   client.on('message', function(data) {
@@ -165,32 +157,13 @@ io.sockets.on('connection', function(client) {
     chat_log.remove(data.id);
   });
 
-  client.on('pomo', function(pomo_data){
-    client_info.set_name(client, pomo_data.name);
-    var pomo_msg = ""
-    if ( pomo_data.msg != "" ){
-      pomo_msg = '「' + pomo_data.msg + '」'
-    }
-
-    if ( client_info.is_pomo(client) ){
-      client_info.set_pomo(client,false);
-    }else{
-      client_info.set_pomo(client,true,setInterval(function(){
-        var current_min = client_info.update_pomo(client, 1);
-
-        if (current_min <= 0 ){
-          var data = {name: "Pomo", date: util.getFullDate(new Date()), msg: client_info.get_name(client) + "さんのポモドーロが終了しました。"};
-          client_info.set_pomo(client,false);
-          client_info.send_growl_to(client,data);
-        }
-
-        client.emit('list', client_info.ip_list());
-        client.broadcast.emit('list', client_info.ip_list());
-      }, 1 * 60000));
-    }
+  client.on('number', function(number_data){
+    console.log(number_data);
+    client_info.set_number(client,number_data.number);
 
     client.emit('list', client_info.ip_list());
     client.broadcast.emit('list', client_info.ip_list());
+ 
   });
 
   client.on('text', function(msg) {
