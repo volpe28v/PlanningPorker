@@ -114,7 +114,8 @@ function init_websocket(){
 
     var out_list = "";
     for (var i = 0; i < login_list.length; ++i){
-      var number = login_list[i].number ? login_list[i].number : "&nbsp;";
+      var hide_sym = '<span class="emo">笑</span>';
+      var number = login_list[i].number ? hide_sym : "&nbsp;";
       var login_elem = '<li><div class="login-elem login-name' + get_color_id_by_name_id(login_list[i].id) + '"><div class="name">' + login_list[i].name + '</div><div class="number">' + number + '</div></div></li>';
       out_list += login_elem + "<wbr>";
     }
