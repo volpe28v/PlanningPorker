@@ -36,7 +36,7 @@
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
   </head>
 
-  <body id="body-main" style="padding-top: 0px">
+  <body id="body-main" style="padding-top: 50px">
     <div class="modal hide" id="name_in">
       <div class="modal-header">
         <h3>PlanningPorker</h3>
@@ -54,9 +54,9 @@
 
     <div class="navbar navbar-default navbar-fixed-top" role="navigation">
       <a class="navbar-brand" href="#">PlanningPorker</a>
-      <form class="navbar-form navbar-left" id="form" role="search">
+      <form class="navbar-form navbar-left" id="form">
         <div class="form-group">
-          <input type="text" name="name" id="name" class="form-control" placeholder="Name">
+          <input type="text" name="name" id="name" class="form-control" placeholder="名前を入れてEnter">
         </div>
       </form>
     </div>
@@ -64,7 +64,6 @@
     <div class="row">
       <div id="chat_area" class="col-xs-12">
         <div class="area-inner">
-          <div class="dummy-top-space"></div>
           <img id="login_list_loader" src="/img/loader.gif"/>
           <div id="login_list" style="display:none"></div>
         </div>
@@ -86,6 +85,13 @@
               <li><button type="button" class="btn btn-default">?</button></li>
             </ul>
           </div>
+          <div class="action-list">
+            <ul>
+              <li><button type="button" class="btn btn-info clear-btn">Clear</button></li>
+              <li><button type="button" class="btn btn-danger all-clear-btn">All Clear</button></li>
+            </ul>
+          </div>
+ 
         </div>
       </div>
     </div>

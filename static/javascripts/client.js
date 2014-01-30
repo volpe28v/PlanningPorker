@@ -62,12 +62,20 @@ function init_chat(){
 }
 
 function init_number(){
+  var socket = io.connect('/');
   $('.number-list').on('click', 'button', function(){
     console.log($(this).html());
 
     var name = $('#name').val();
-    var socket = io.connect('/');
     socket.emit('number', {name:name, number:$(this).html()});
+  });
+
+  $('.action-list').on('click', '.clear-btn', function(){
+    socket.emit('number', {name:name, number:""});
+  });
+
+  $('.action-list').on('click', '.all-clear-btn', function(){
+    socket.emit('number-all-clear');
   });
 }
 
@@ -112,10 +120,25 @@ function init_websocket(){
   socket.on('list', function(login_list) {
     $('#login_list_loader').hide();
 
-    var out_list = "";
+    var is_all_number = true;
     for (var i = 0; i < login_list.length; ++i){
-      var hide_sym = '<span class="emo">笑</span>';
-      var number = login_list[i].number ? hide_sym : "&nbsp;";
+      if (login_list[i].number == undefined || login_list[i].number == ""){
+        is_all_number = false;
+        break;
+      }
+    }
+ 
+    var out_list = "";
+    var hide_sym = '<span class="emo">笑</span>';
+    for (var i = 0; i < login_list.length; ++i){
+      var number = "&nbsp;";
+      if (login_list[i].number != undefined && login_list[i].number != ""){
+        if (is_all_number){
+          number = login_list[i].number;
+        }else{
+          number = hide_sym;
+        }
+      }
       var login_elem = '<li><div class="login-elem login-name' + get_color_id_by_name_id(login_list[i].id) + '"><div class="name">' + login_list[i].name + '</div><div class="number">' + number + '</div></div></li>';
       out_list += login_elem + "<wbr>";
     }

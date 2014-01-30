@@ -163,7 +163,13 @@ io.sockets.on('connection', function(client) {
 
     client.emit('list', client_info.ip_list());
     client.broadcast.emit('list', client_info.ip_list());
- 
+  });
+
+  client.on('number-all-clear', function(){
+    client_info.clear_all_number();
+
+    client.emit('list', client_info.ip_list());
+    client.broadcast.emit('list', client_info.ip_list());
   });
 
   client.on('text', function(msg) {
