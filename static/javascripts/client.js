@@ -129,7 +129,7 @@ function init_websocket(){
     }
  
     var out_list = "";
-    var hide_sym = '<span class="emo">笑</span>';
+    var hide_sym = '<span class="glyphicon glyphicon-ok-circle"></span>';
     for (var i = 0; i < login_list.length; ++i){
       var number = "&nbsp;";
       if (login_list[i].number != undefined && login_list[i].number != ""){
@@ -140,7 +140,7 @@ function init_websocket(){
         }
       }
       var login_elem = '<li><div class="login-elem login-name' + get_color_id_by_name_id(login_list[i].id) + '"><div class="name">' + login_list[i].name + '</div><div class="number">' + number + '</div></div></li>';
-      out_list += login_elem + "<wbr>";
+      out_list += login_elem;
     }
     out_list = '<div class="list"><ul>' + out_list + "</ul></div>";
 
