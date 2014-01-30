@@ -12,6 +12,12 @@ DevHubを改造してプランニングポーカーを作ってみる
 ## デモサイト
 http://planning-porker.herokuapp.com/
 
+## 技術
+* node.js
+* TwitterBootStrap 3
+* mongoDB(使ってない!?)
+* SocketIO
+
 ## License
 (The MIT License)
 
