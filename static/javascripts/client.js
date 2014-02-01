@@ -143,7 +143,7 @@ function init_websocket(){
       if (login_list[i].number != undefined && login_list[i].number != ""){
         if (is_all_number){
           number = login_list[i].number;
-          if (prev_number != number){ is_all_number = false }
+          if (prev_number != number){ is_all_same = false }
           prev_number = number;
         }else{
           number = hide_sym;
