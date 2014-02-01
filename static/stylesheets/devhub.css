@@ -231,18 +231,10 @@ a:hover {
   -webkit-border-radius: 4px;    /* Safari,Google Chrome用 */  
   -moz-border-radius: 4px;   /* Firefox用 */  
   color: white;
-  cursor: pointer;
   -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2),0 1px 2px rgba(0, 0, 0, 0.05);
   -moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2),0 1px 2px rgba(0, 0, 0, 0.05);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2),0 1px 2px rgba(0, 0, 0, 0.05);
 }
-
-.login-name-base:hover,
-.login-elem:hover
-{
-  border: solid 1px lightsteelblue;
-}
-
 
 .login-name{
   background-color: lightsteelblue;
