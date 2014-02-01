@@ -9,6 +9,8 @@ DevHubを改造してプランニングポーカーを作ってみる
 * 全員の見積もりが揃ったら公開される
 * 上部のメモ欄に見積もりたいタスク内容など書ける
 
+## スクリーンショット
+![スクリーンショット](https://dl.dropboxusercontent.com/u/1215986/planning_porker.png)
 ## デモサイト
 http://planning-porker.herokuapp.com/
 
