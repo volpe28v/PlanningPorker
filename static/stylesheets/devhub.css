@@ -457,6 +457,9 @@ a:hover {
   left: -50%;
 }
 
+#login_list_loader {
+  text-align:center;
+}
 
 footer {
   width: 100%;
