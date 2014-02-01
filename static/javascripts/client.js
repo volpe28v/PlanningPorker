@@ -130,11 +130,15 @@ function init_websocket(){
  
     var out_list = "";
     var hide_sym = '<span class="glyphicon glyphicon-ok-circle"></span>';
+    var is_all_same = true;
+    var prev_number = login_list[0].number;
     for (var i = 0; i < login_list.length; ++i){
       var number = "&nbsp;";
       if (login_list[i].number != undefined && login_list[i].number != ""){
         if (is_all_number){
           number = login_list[i].number;
+          if (prev_number != number){ is_all_number = false }
+          prev_number = number;
         }else{
           number = hide_sym;
         }
@@ -147,12 +151,12 @@ function init_websocket(){
     if ($('#login_list').html() != out_list){
       $('#login_list').html(out_list);
       $('#login_list').fadeIn();
+    }
 
-      // add click event for each login names.
-      $('#login_list .login-elem').click(function(){
-        var name = $(this).children(".name").text();
-        $('#message').val($('#message').val() + " @" + name + "さん ");
-        $('#message').focus();
+    if (login_list.length > 1 && is_all_number && is_all_same){
+      $('.login-elem').each(function(){
+        $(this).addClass("text-highlight");
+        $(this).switchClass("text-highlight", "", 5000);
       });
     }
 

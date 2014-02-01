@@ -115,7 +115,8 @@ a:hover {
 }
 
 .text-highlight {
-  background-color: yellow;
+  background-color: yellow !important; 
+  color: black !important;
 }
 
 .code {
