@@ -3,6 +3,7 @@ var login_name = '';
 var suggest_obj = undefined;
 var LOGIN_COLOR_MAX = 9;
 var COOKIE_NAME = "dev_hub_name";
+var COOKIE_AVATAR = "planning_porker_avatar_url";
 var COOKIE_CSS_NAME = "dev_hub_css_name";
 var COOKIE_EXPIRES = 365;
 var CSS_DEFAULT_NAME = "bootstrap.min.css";
@@ -25,7 +26,6 @@ $(function() {
   init_websocket();
 
   var css_name = $.cookie(COOKIE_CSS_NAME) || CSS_DEFAULT_NAME;
-  $("#devhub-style").attr('href','/stylesheets/' + css_name );
 
   if ( $.cookie(COOKIE_NAME) == null ){
     /*
@@ -39,7 +39,8 @@ $(function() {
   }else{
     login_name = $.cookie(COOKIE_NAME);
     $('#name').val(login_name);
-    $('#message').focus();
+    var avatar = $.cookie(COOKIE_AVATAR) || "";
+    $('#avatar_url').val(avatar);
   }
 
   $(window).on("blur focus", function(e) {
@@ -96,6 +97,7 @@ function init_websocket(){
   socket.on('connect', function() {
     //console.log('connect');
     socket.emit('name', {name: $.cookie(COOKIE_NAME)});
+    socket.emit('avatar', {url: $.cookie(COOKIE_AVATAR)});
   });
 
   socket.on('disconnect', function(){
@@ -134,6 +136,10 @@ function init_websocket(){
     var prev_number = login_list[0].number;
     for (var i = 0; i < login_list.length; ++i){
       var number = "&nbsp;";
+      if (login_list[i].avatar){
+        number = '<img src="' + login_list[i].avatar + '" width="65px" class="img-rounded">';
+      }
+
       if (login_list[i].number != undefined && login_list[i].number != ""){
         if (is_all_number){
           number = login_list[i].number;
@@ -169,7 +175,7 @@ function init_websocket(){
     }
   });
 
-  $('#form').submit(function() {
+  $('#name_form').submit(function() {
     var name = $('#name').val();
     $.cookie(COOKIE_NAME,name,{ expires: COOKIE_EXPIRES });
 
@@ -177,6 +183,14 @@ function init_websocket(){
       login_name = name;
       socket.emit('message', {name:name, msg:""});
     }
+    return false;
+  });
+
+  $('#avatar_form').submit(function() {
+    var avatar = $('#avatar_url').val();
+    $.cookie(COOKIE_AVATAR, avatar ,{ expires: COOKIE_EXPIRES });
+
+    socket.emit('avatar', {url:avatar});
     return false;
   });
 
@@ -234,114 +248,6 @@ function init_websocket(){
     switchEditShareMemo($share_memo, row);
   });
 
-  // 差分リスト表示
-  $('.share-memo').on('click','.diff-button', function(){
-    var $share_memo = $(this).closest('.share-memo');
-    switchFixShareMemo($share_memo,1);
-
-    var $diff_list = $share_memo.find('.diff-list');
-    var share_memo_no = $share_memo.data('no');
-    var text_log = text_logs[share_memo_no];
-    if (text_log == undefined || text_log.length == 0 ){ return; }
-    if (writing_text[share_memo_no].date != text_log[0].date){
-      text_log.unshift(writing_text[share_memo_no]);
-    }
-
-    $diff_list.empty();
-    $diff_list.append($('<li/>').append($('<a/>').addClass("diff-li").attr('href',"#").html('<i class="icon-play"></i> Current memo - ' + text_log[0].name)));
-    for (var i = 1; i < text_log.length; i++){
-      $diff_list.append($('<li/>').append($('<a/>').addClass("diff-li").attr('href',"#").html(text_log[i].date + " - " + text_log[i].name)));
-    }
-  });
-
-  $('.share-memo').on('mouseover','.diff-li', function(){
-    var diff_li_array = $(this).closest(".diff-list").find(".diff-li");
-    var index = diff_li_array.index(this);
-    diff_li_array.each(function(i, li){
-      if (i < index){
-        $(li).addClass("in_diff_range");
-      }else if(i > index){
-        $(li).removeClass("in_diff_range");
-      }
-    });
-  });
-
-  $('.share-memo').on('mouseout','.diff-li', function(){
-    var diff_li_array = $(this).closest(".diff-list").find(".diff-li");
-    diff_li_array.each(function(i, li){
-      $(li).removeClass("in_diff_range");
-    });
-  });
-
-  // 差分を表示
-  $('.share-memo').on('click','.diff-li', function(){
-    var $share_memo = $(this).closest('.share-memo');
-    var $code_out_pre = $share_memo.find('pre');
-    var share_memo_no = $share_memo.data('no');
-    var index = $(this).closest(".diff-list").find(".diff-li").index(this);
-
-    // diff 生成
-    var base   = difflib.stringAsLines(text_logs[share_memo_no][index].text);
-    var newtxt = difflib.stringAsLines(writing_text[share_memo_no].text);
-    var sm = new difflib.SequenceMatcher(base, newtxt);
-    var opcodes = sm.get_opcodes();
-    var $diff_out = $share_memo.find('.diff-view');
-    $diff_out.empty();
-    $diff_out.append(diffview.buildView({
-        baseTextLines: base,
-        newTextLines: newtxt,
-        opcodes: opcodes,
-        baseTextName: "Current",
-        newTextName: text_logs[share_memo_no][index].date + " - " + text_logs[share_memo_no][index].name,
-        viewType: 1
-    }));
-
-    // diff 画面を有効化
-    $diff_out.fadeIn();
-    $code_out_pre.hide();
-
-    $share_memo.find('.diff-done').show();
-    $share_memo.find('.sync-text').hide();
-    $share_memo.find('.index-button').hide();
-    return true;
-  });
-
-  // 差分表示モード終了
-  $('.share-memo').on('click','.diff-done', function(){
-    var $share_memo = $(this).closest('.share-memo');
-    $share_memo.find('pre').fadeIn();
-    $share_memo.find('.diff-view').hide();
-
-    $share_memo.find('.diff-done').hide();
-    $share_memo.find('.sync-text').show();
-    $share_memo.find('.index-button').show();
-  });
-
-  // 見出し表示
-  $('.share-memo').on('click','.index-button', function(){
-    var $share_memo = $(this).closest('.share-memo');
-    switchFixShareMemo($share_memo,1);
-
-    var $index_list = $share_memo.find('.index-list');
-    var $code_out = $share_memo.find('.code-out');
-    $index_list.empty();
-    $code_out.find(":header").each(function(){
-      var h_num = parseInt($(this).get()[0].localName.replace("h",""));
-      var prefix = "";
-      for (var i = 1; i < h_num; i++){ prefix += "&emsp;"; }
-      $index_list.append($('<li/>').append($('<a/>').addClass("index-li").attr('href',"#").html(prefix + " " + $(this).text())));
-    });
-  });
-
-  // 見出しへスクロール移動
-  $('.share-memo').on('click','.index-li', function(){
-    var index = $(this).closest(".index-list").find(".index-li").index(this);
-    var $code_out = $(this).closest('.share-memo').find('.code-out');
-    var pos = $code_out.find(":header").eq(index).offset().top;
-    $('#memo_area').animate({ scrollTop: pos - CODE_INDEX_ADJUST_HEIGHT}, 'fast');
-    return true;
-  });
-
   // デコレートされた html へのイベント登録
   $('.share-memo').decora({
     checkbox_callback: function(that, applyCheckStatus){
@@ -355,36 +261,6 @@ function init_websocket(){
       $target_code.val(writing_text[share_memo_no].text);
       socket.emit('text',{no: share_memo_no, text: $target_code.val()});
     }
-  });
-
-  $('#pomo').click(function(){
-    var name = $('#name').val();
-    var message = $('#message').val();
-    $.cookie(COOKIE_NAME,name,{ expires: COOKIE_EXPIRES });
-
-    $('#message').attr('value', '');
-    socket.emit('pomo', {name: name, msg: message});
-    return false;
-  });
-
-  var login_action = function(){
-    var name = $('#login_name').val();
-    if ( name != "" ){
-      $.cookie(COOKIE_NAME,name,{ expires: COOKIE_EXPIRES });
-      socket.emit('name', {name: $.cookie(COOKIE_NAME)});
-      $('#name').val($.cookie(COOKIE_NAME));
-      $('#message').focus();
-    }
-    $('#name_in').modal('hide')
-  };
-
-  $('#login').click(function(){
-    login_action();
-  });
-
-  $('#login_form').submit(function(){
-    login_action();
-    return false;
   });
 
   function switchFixShareMemo($share_memo, row){
@@ -404,16 +280,6 @@ function init_websocket(){
     socket.emit('add_history',{no: $share_memo.data('no')});
     writing_loop_stop();
   }
-
-  $('#share-memo').on('click','.share-memo-tab-elem', function(){
-    var writing_no = writing_loop_timer.code_no;
-    if ( writing_no != 0){
-      $share_memo= $('#share_memo_' + writing_no);
-      switchFixShareMemo($share_memo, 1);
-    }
-    $('#memo_area').animate({ scrollTop: 0 }, 'fast');
-    return true;
-  });
 
   $('.share-memo').on('dblclick','.code', function(){
     switchFixShareMemo($(this).parent(), $(this).caretLine());
@@ -453,12 +319,11 @@ function init_websocket(){
     }
 
     // for code_out
-    var $text_writer = $target.children('.text-writer');
-    $text_writer.html(text_log.date);
-    $text_writer.removeClass("label-info");
-    $text_writer.addClass("label-important");
-    $text_writer.show();
-    $target.find('.code-out').html(setToTable($.decora.to_html(text_log.text)));
+    if (text_log.text != ""){
+      $target.find('.code-out').html(setToTable($.decora.to_html(text_log.text)));
+    }else{
+      $target.find('.code-out').html(setToTable($.decora.to_html("Please double click and then write here.")));
+    }
 
     // チェックボックスの進捗表示
     var checked_count = $target.find("input:checked").length;

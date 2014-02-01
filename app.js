@@ -172,6 +172,13 @@ io.sockets.on('connection', function(client) {
     client.broadcast.emit('list', client_info.ip_list());
   });
 
+  client.on('avatar', function(avatar){
+    client_info.set_avatar(client,avatar.url);
+
+    client.emit('list', client_info.ip_list());
+    client.broadcast.emit('list', client_info.ip_list());
+  });
+
   client.on('text', function(msg) {
     var name = client_info.get_name(client)
     msg.text = msg.text.replace(/\n/g,"\r\n");

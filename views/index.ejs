@@ -55,59 +55,61 @@
 
     <div class="navbar navbar-default navbar-fixed-top" role="navigation">
       <a class="navbar-brand" href="#">PlanningPorker</a>
-      <form class="navbar-form navbar-left" id="form">
-        <div class="form-group">
-          <input type="text" name="name" id="name" class="form-control" placeholder="名前を入れてEnter">
-        </div>
-      </form>
     </div>
 
     <div class="row">
-      <div id="memo_area" class="col-xs-12 memo-area">
-        <div class="area-inner">
-          <div id="share-memo"></div>
+      <div class="col-xs-3">
+        <div class="area-inner-left">
+          <form id="name_form">
+            <div class="form-group">
+              <label for="exampleInputEmail1">Name</label>
+              <input type="text" id="name" class="form-control" placeholder="Your Name">
+            </div>
+          </form>
+
+          <form id="avatar_form">
+            <div class="form-group">
+              <label for="exampleInputEmail1">Avatar URL</label>
+              <input type="text" id="avatar_url" class="form-control" placeholder="Your Avatar URL">
+            </div>
+          </form>
         </div>
       </div>
-    </div>
+
+      <div class="col-xs-9 memo-area">
  
-    <div class="row">
-      <div id="chat_area" class="col-xs-12">
-        <div class="area-inner">
+      <div class="area-inner-right">
+        <div id="memo_area" class="memo-area">
+          <div id="share-memo"></div>
+        </div>
+
+        <div id="chat_area">
           <div id="login_list_loader">
             <img src="/img/loader.gif"/> Now Connecting...
           </div>
           <div id="login_list" style="display:none"></div>
         </div>
-      </div>
-    </div>
 
-    <div class="row">
-      <div class="col-xs-12">
-        <div class="area-inner">
-          <div class="number-list">
-            <ul>
-              <li><button type="button" class="btn btn-default">0</button></li>
-              <li><button type="button" class="btn btn-default">1</button></li>
-              <li><button type="button" class="btn btn-default">2</button></li>
-              <li><button type="button" class="btn btn-default">3</button></li>
-              <li><button type="button" class="btn btn-default">5</button></li>
-              <li><button type="button" class="btn btn-default">8</button></li>
-              <li><button type="button" class="btn btn-default">Big</button></li>
-              <li><button type="button" class="btn btn-default">?</button></li>
-            </ul>
-          </div>
-          <div class="action-list">
-            <ul>
-              <li><button type="button" class="btn btn-info clear-btn">Clear</button></li>
-              <li><button type="button" class="btn btn-danger all-clear-btn">Next Porker</button></li>
-            </ul>
-          </div>
+        <div class="number-list">
+          <ul>
+            <li><button type="button" class="btn btn-default">0</button></li>
+            <li><button type="button" class="btn btn-default">1</button></li>
+            <li><button type="button" class="btn btn-default">2</button></li>
+            <li><button type="button" class="btn btn-default">3</button></li>
+            <li><button type="button" class="btn btn-default">5</button></li>
+            <li><button type="button" class="btn btn-default">8</button></li>
+            <li><button type="button" class="btn btn-default">Big</button></li>
+            <li><button type="button" class="btn btn-default">?</button></li>
+          </ul>
+        </div>
+        <div class="action-list">
+          <ul>
+            <li><button type="button" class="btn btn-info clear-btn">Clear</button></li>
+            <li><button type="button" class="btn btn-danger all-clear-btn">Next Porker</button></li>
+          </ul>
         </div>
       </div>
     </div>
-    <footer>
-    <span>© 2014 Naoki KODAMA. All rights reserved.</span>
-    </footer>
   </body>
 </html>
 

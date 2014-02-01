@@ -19,9 +19,13 @@ html,body{
   overflow: hidden;
 }
 
-.area-inner {
+.area-inner-left {
+  margin-left: 12px;
+  margin-top: 12px;
+}
+
+.area-inner-right {
   margin-right: 12px;
-  margin-left: 8px;
 }
 
 .dummy-top-space {
@@ -176,10 +180,6 @@ a:hover {
 
 .diff-view {
   min-height: 700px;
-}
-
-#name, #message {
-  background-color: aliceblue;
 }
 
 #chat_body{
