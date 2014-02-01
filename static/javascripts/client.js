@@ -17,7 +17,6 @@ var SHARE_MEMO_NUMBER = 15;
 // for share memo
 var writing_text = [];
 var text_logs = [];
-var newest_count = 0;
 
 $(function() {
   init_chat();
@@ -42,10 +41,6 @@ $(function() {
     var avatar = $.cookie(COOKIE_AVATAR) || "";
     $('#avatar_url').val(avatar);
   }
-
-  $(window).on("blur focus", function(e) {
-    newest_off();
-  });
 });
 
 function init_chat(){
@@ -107,12 +102,10 @@ function init_websocket(){
   // for chat
   socket.on('message_own', function(data) {
     prepend_own_msg(data);
-    newest_mark();
   });
 
   socket.on('message', function(data) {
     prepend_msg(data);
-    newest_mark();
   });
 
   socket.on('remove_message', function(data) {
@@ -167,6 +160,7 @@ function init_websocket(){
     }
 
     latest_login_list = login_list.sort(function(a,b){ return b.name.length - a.name.length });
+    document.title = "(" + login_list.length + ") " + TITLE_ORG;
   });
 
   socket.on('latest_log', function(msgs) {
@@ -656,17 +650,6 @@ function prepend_msg(data){
     msg.li.switchClass("text-highlight", msg.css, 500);
   });
 };
-
-function newest_mark(){
-  if ("message" == $(':focus').attr('id')){ newest_off(); return; }
-  newest_count++;
-  document.title = "(" + newest_count + ") " + TITLE_ORG;
-}
-
-function newest_off(){
-  newest_count = 0;
-  document.title = TITLE_ORG;
-}
 
 function exist_msg(data){
   if (data.msg == undefined) { data.msg = ""; }
