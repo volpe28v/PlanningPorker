@@ -3,97 +3,84 @@
   <head>
     <meta charset="utf-8">
     <title>PlanningPorker</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <meta name="description" content="">
     <meta name="author" content="">
 
     <link href="/stylesheets/emolett.css" media="screen" rel="stylesheet" type="text/css" />
     <link href="/stylesheets/devhub.css" media="screen" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
-    <link href="//netdna.bootstrapcdn.com/bootswatch/3.0.3/flatly/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootswatch/3.0.3/flatly/bootstrap.min.css">
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
+
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
   </head>
 
   <body id="body-main" style="padding-top: 60px">
-    <div class="modal hide" id="name_in">
-      <div class="modal-header">
-        <h3>PlanningPorker</h3>
-      </div>
-      <div class="modal-body">
-        <p>Please type your name.</p>
-        <form id="login_form">
-          <input type="text" id="login_name" class="span2" placeholder="Name"/>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button id="login" class="btn btn-primary">Login</button>
-      </div>
-    </div>
-
     <div class="navbar navbar-default navbar-fixed-top" role="navigation">
       <a class="navbar-brand" href="#">PlanningPorker</a>
     </div>
 
-    <div class="row">
-      <div class="col-xs-3">
-        <div class="area-inner-left">
-          <form id="name_form">
-            <div class="form-group">
-              <label for="exampleInputEmail1">Name</label>
-              <input type="text" id="name" class="form-control" placeholder="Your Name">
-            </div>
-          </form>
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-3">
+          <div class="area-inner-left">
+            <form id="name_form">
+              <div class="form-group">
+                <label for="exampleInputEmail1">Name</label>
+                <input type="text" id="name" class="form-control" placeholder="Your Name">
+              </div>
+            </form>
 
-          <form id="avatar_form">
-            <div class="form-group">
-              <label for="exampleInputEmail1">Avatar URL</label>
-              <input type="text" id="avatar_url" class="form-control" placeholder="Your Avatar URL">
-            </div>
-          </form>
-        </div>
-      </div>
-
-      <div class="col-xs-9 memo-area">
- 
-      <div class="area-inner-right">
-        <div id="memo_area" class="memo-area">
-          <div id="share-memo"></div>
-        </div>
-
-        <div id="chat_area">
-          <div id="login_list_loader">
-            <img src="/img/loader.gif"/> Now Connecting...
+            <form id="avatar_form">
+              <div class="form-group">
+                <label for="exampleInputEmail1">Avatar URL</label>
+                <input type="text" id="avatar_url" class="form-control" placeholder="Your Avatar URL">
+              </div>
+            </form>
           </div>
-          <div id="login_list" style="display:none"></div>
         </div>
 
-        <div class="number-list">
-          <ul>
-            <li><button type="button" class="btn btn-default">0</button></li>
-            <li><button type="button" class="btn btn-default">1</button></li>
-            <li><button type="button" class="btn btn-default">2</button></li>
-            <li><button type="button" class="btn btn-default">3</button></li>
-            <li><button type="button" class="btn btn-default">5</button></li>
-            <li><button type="button" class="btn btn-default">8</button></li>
-            <li><button type="button" class="btn btn-default">Big</button></li>
-            <li><button type="button" class="btn btn-default">?</button></li>
-          </ul>
-        </div>
-        <div class="action-list">
-          <ul>
-            <li><button type="button" class="btn btn-info clear-btn">Clear</button></li>
-            <li><button type="button" class="btn btn-danger all-clear-btn">Next Porker</button></li>
-          </ul>
+        <div class="col-sm-9">
+          <div class="area-inner-right">
+            <div id="memo_area">
+              <div id="share-memo"></div>
+            </div>
+
+            <div id="chat_area">
+              <div id="login_list_loader">
+                <img src="/img/loader.gif"/> Now Connecting...
+              </div>
+              <div id="login_list" style="display:none"></div>
+            </div>
+
+            <div class="number-list">
+              <ul>
+                <li><button type="button" class="btn btn-default">0</button></li>
+                <li><button type="button" class="btn btn-default">1</button></li>
+                <li><button type="button" class="btn btn-default">2</button></li>
+                <li><button type="button" class="btn btn-default">3</button></li>
+                <li><button type="button" class="btn btn-default">5</button></li>
+                <li><button type="button" class="btn btn-default">8</button></li>
+                <li><button type="button" class="btn btn-default">Big</button></li>
+                <li><button type="button" class="btn btn-default">?</button></li>
+              </ul>
+            </div>
+            <div class="action-list">
+              <ul>
+                <li><button type="button" class="btn btn-info clear-btn">Clear</button></li>
+                <li><button type="button" class="btn btn-danger all-clear-btn">Next Porker</button></li>
+              </ul>
+            </div>
+          </div>
         </div>
       </div>
     </div>
 
-    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
-    <!--[if lt IE 9]>
-      <script type="text/javascript" src="/javascripts/html5.js"></script>
-    <![endif]-->
-
-    <script type="text/javascript" src="/javascripts/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery.js"></script>
     <script type="text/javascript" src="/javascripts/jquery-ui.js"></script>
     <script type="text/javascript" src="/socket.io/socket.io.js"></script>
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>

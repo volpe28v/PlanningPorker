@@ -8,9 +8,6 @@ html,body{
 #chat_area{
 }
 
-.memo-area{
-}
-
 .memo-area-zen{
   height : 100%;
   top : 0px;
@@ -20,12 +17,11 @@ html,body{
 }
 
 .area-inner-left {
-  margin-left: 12px;
-  margin-top: 12px;
+  margin: 20px 12px;
 }
 
 .area-inner-right {
-  margin-right: 12px;
+  margin: 5px 12px;
 }
 
 .dummy-top-space {
@@ -446,6 +442,7 @@ a:hover {
 .number-list ul li, .action-list ul li {
   float: left;
   margin-right: 5px;
+  margin-bottom: 5px;
   position: relative;
   left: -50%;
 }
