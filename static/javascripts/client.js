@@ -82,7 +82,7 @@ function init_sharememo(){
 
   $(".share-memo").each(function(){
     $(this).append(
-      $('<textarea/>').addClass("code code-unselect").css("display","none").attr("placeholder", "Write here")).append(
+      $('<textarea/>').addClass("form-control code code-unselect").css("display","none").attr("placeholder", "Write here")).append(
       $('<pre/>').addClass("text-base-style").append($('<div/>').addClass("code-out")));
   });
 }
