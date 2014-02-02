@@ -227,7 +227,7 @@ function init_websocket(){
     switchEditShareMemo($share_memo, 0);
   });
 
-  $('.share-memo').on('dblclick','pre tr', function(){
+  $('.share-memo').on('dblclick doubletap','pre tr', function(){
     // クリック時の行数を取得してキャレットに設定する
     var $share_memo = $(this).closest('.share-memo');
     var row = $(this).closest("table").find("tr").index(this);
@@ -235,7 +235,7 @@ function init_websocket(){
     return false;
   });
 
-  $('.share-memo').on('dblclick','pre', function(){
+  $('.share-memo').on('dblclick doubletap','pre', function(){
     // 文字列が無い場合は最下部にキャレットを設定する
     var $share_memo = $(this).closest('.share-memo');
     var row = $(this).find("table tr").length - 1;
@@ -275,7 +275,7 @@ function init_websocket(){
     writing_loop_stop();
   }
 
-  $('.share-memo').on('dblclick','.code', function(){
+  $('.share-memo').on('dblclick doubletap','.code', function(){
     switchFixShareMemo($(this).parent(), $(this).caretLine());
   });
 
