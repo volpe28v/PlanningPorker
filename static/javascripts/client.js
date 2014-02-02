@@ -356,9 +356,6 @@ function init_websocket(){
       clearTimeout(update_timer[no]);
     }
     update_timer[no] = setTimeout(function(){
-      $text_writer.html(text_log.date);
-      $text_writer.removeClass("label-important");
-      $text_writer.addClass("label-info");
       $writer.removeClass("writing-name");
       update_timer[no] = undefined;
     },3000);
