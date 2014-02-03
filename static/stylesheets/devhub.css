@@ -451,6 +451,11 @@ a:hover {
   text-align:center;
 }
 
+.avatar-img {
+  max-width:65px;
+  max-height:65px;
+}
+
 footer {
   width: 100%;
   margin-top: 4px;

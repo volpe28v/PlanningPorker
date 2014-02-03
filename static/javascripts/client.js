@@ -130,7 +130,7 @@ function init_websocket(){
     for (var i = 0; i < login_list.length; ++i){
       var number = "&nbsp;";
       if (login_list[i].avatar){
-        number = '<img src="' + login_list[i].avatar + '" width="65px" class="img-rounded">';
+        number = '<img src="' + login_list[i].avatar + '" class="img-rounded avatar-img">';
       }
 
       if (login_list[i].number != undefined && login_list[i].number != ""){
