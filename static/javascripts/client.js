@@ -19,7 +19,7 @@ var writing_text = [];
 var text_logs = [];
 
 $(function() {
-  init_chat();
+  init_profile();
   init_number();
   init_sharememo();
   init_websocket();
@@ -43,17 +43,34 @@ $(function() {
   }
 });
 
-function init_chat(){
-  $('#list').on('click', '.remove_msg', function(){
-    var id = "#" + $(this).closest('li').attr('id');
-    var data_id = $(this).closest('li').data('id');
-    $(id).fadeOut();
-    send_remove_msg(data_id);
+function init_profile(){
+  var socket = io.connect('/');
+ 
+  $('#name_form').submit(function() {
+    return false;
   });
-  $('#list').on('click', '.login-name-base', function(){
-    var name = $(this).text();
-    $('#message').val($('#message').val() + " @" + name + "さん ");
-    $('#message').focus();
+
+  $('#name').keyup(function(){
+    var name = $('#name').val();
+    $.cookie(COOKIE_NAME,name,{ expires: COOKIE_EXPIRES });
+
+    if ( name ){
+      login_name = name;
+      socket.emit('message', {name:name, msg:""});
+    }
+    return false;
+  });
+
+  $('#avatar_form').submit(function() {
+    return false;
+  });
+
+  $('#avatar_form').keyup(function() {
+    var avatar = $('#avatar_url').val();
+    $.cookie(COOKIE_AVATAR, avatar ,{ expires: COOKIE_EXPIRES });
+
+    socket.emit('avatar', {url:avatar});
+    return false;
   });
 }
 
@@ -167,25 +184,6 @@ function init_websocket(){
     for ( var i = 0 ; i < msgs.length; i++){
       append_msg(msgs[i])
     }
-  });
-
-  $('#name_form').submit(function() {
-    var name = $('#name').val();
-    $.cookie(COOKIE_NAME,name,{ expires: COOKIE_EXPIRES });
-
-    if ( name ){
-      login_name = name;
-      socket.emit('message', {name:name, msg:""});
-    }
-    return false;
-  });
-
-  $('#avatar_form').submit(function() {
-    var avatar = $('#avatar_url').val();
-    $.cookie(COOKIE_AVATAR, avatar ,{ expires: COOKIE_EXPIRES });
-
-    socket.emit('avatar', {url:avatar});
-    return false;
   });
 
   $(".code").autofit({min_height: CODE_MIN_HEIGHT});
