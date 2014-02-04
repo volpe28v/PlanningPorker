@@ -220,7 +220,7 @@ a:hover {
 .login-name-base,
 .login-elem
 {
-  min-width: 80px;
+  min-width: 70px;
   font-weight: bold;
   font-size: 12px;
   padding: 2px 4px;
@@ -391,7 +391,7 @@ a:hover {
 }
 
 .number {
-  font-size: 70px;
+  font-size: 60px;
   text-align: center;
 }
 
@@ -452,8 +452,8 @@ a:hover {
 }
 
 .avatar-img {
-  max-width:65px;
-  max-height:65px;
+  max-width:60px;
+  max-height:60px;
 }
 
 footer {
