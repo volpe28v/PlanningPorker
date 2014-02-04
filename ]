@@ -161,7 +161,7 @@ module.exports.get_name = function(client){
   if ( c.name != undefined ){
     return c.name;
   }else{
-    return "-Guest-";
+    return "guest";
   }
 }
 
