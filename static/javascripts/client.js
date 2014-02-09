@@ -11,9 +11,9 @@ var CODE_INDEX_ADJUST_HEIGHT = 50;
 var CODE_ADJUST_HEIGHT = 100;
 var SHARE_MEMO_NUMBER = 15;
 
-// for share memo
 var writing_text = [];
 var text_logs = [];
+var socket = io.connect('/');
 
 $(function() {
   init_profile();
@@ -30,8 +30,6 @@ $(function() {
 });
 
 function init_profile(){
-  var socket = io.connect('/');
- 
   $('#name_form').submit(function() {
     return false;
   });
@@ -61,7 +59,6 @@ function init_profile(){
 }
 
 function init_number(){
-  var socket = io.connect('/');
   $('.number-list').on('click', 'button', function(){
     console.log($(this).html());
 
@@ -91,7 +88,6 @@ function init_sharememo(){
 }
 
 function init_websocket(){
-  var socket = io.connect('/');
   socket.on('connect', function() {
     //console.log('connect');
     socket.emit('name', {name: $.cookie(COOKIE_NAME)});
@@ -100,19 +96,6 @@ function init_websocket(){
 
   socket.on('disconnect', function(){
     //console.log('disconnect');
-  });
-
-  // for chat
-  socket.on('message_own', function(data) {
-    prepend_own_msg(data);
-  });
-
-  socket.on('message', function(data) {
-    prepend_msg(data);
-  });
-
-  socket.on('remove_message', function(data) {
-    $('#msg_' + data.id).fadeOut();
   });
 
   socket.on('list', function(login_list) {
@@ -366,21 +349,6 @@ function init_websocket(){
     clearInterval(writing_loop_timer.id);
     writing_loop_timer = { id: -1, code_no: 0};
   }
-
-  $('#memo_number').bind('change',function(){
-    var num = $(this).val();
-    socket.emit('memo_number', {num: num});
-  });
-
-  socket.on('memo_number', function(data){
-    var num = data.num;
-    $('.share-memo-tab-elem').hide();
-    for (var i = 1; i <= num; i++){
-      $('#share_memo_tab_' + i).fadeIn("fast");
-      $('#share_memo_tab_' + i).css("display", "block");
-    }
-    $('#memo_number').val(num);
-  });
 };
 
 function get_color_id_by_name_id(id){

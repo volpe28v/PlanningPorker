@@ -83,7 +83,7 @@ io.sockets.on('connection', function(client) {
   console.log("New Connection from " + client_ip);
 
   client_info.login(client_ip);
-
+ 
   text_log.get_active_number(function(number){
     client.emit('memo_number',number);
     for( var i = 0; i < number.num; i++){
