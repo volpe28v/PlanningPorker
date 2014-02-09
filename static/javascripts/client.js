@@ -56,6 +56,10 @@ function init_profile(){
     socket.emit('avatar', {url:avatar});
     return false;
   });
+
+  socket.on('set_name', function(name) {
+    $('#name').val(name);
+  });
 }
 
 function init_number(){
