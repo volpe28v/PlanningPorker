@@ -69,25 +69,6 @@ app.get('/notify', function(req, res) {
   });
 });
 
-app.post('/notify_memo', function(req, res) {
-  console.log('/notify_memo');
-  var name = req.body.name;
-  var msg = req.body.msg;
-  console.log(name, msg);
-
-  var current_text_log = { name: name, text: msg, date: util.getFullDate(new Date()) }
-  io.sockets.emit('text', current_text_log);
-
-  text_log.add(current_text_log, function(result){
-    if ( result ){
-      text_log.get_logs(function(logs){
-        io.sockets.emit('text_logs', logs);
-      });
-    }
-  });
-  res.json({result: "success"});
-});
-
 // set db and listen app
 mongo_builder.ready(db_name, function(db){
   chat_log.set_db(db);
@@ -102,7 +83,7 @@ io.sockets.on('connection', function(client) {
   console.log("New Connection from " + client_ip);
 
   client_info.login(client_ip);
-
+ 
   text_log.get_active_number(function(number){
     client.emit('memo_number',number);
     for( var i = 0; i < number.num; i++){
@@ -122,6 +103,9 @@ io.sockets.on('connection', function(client) {
 
   client.on('name', function(data) {
     client_info.set_name(client, data.name);
+    if (data.name == null || data.name == ""){
+      client.emit('set_name', client_info.get_name(client));
+    }
 
     client.emit('list', client_info.ip_list());
     client.broadcast.emit('list', client_info.ip_list());

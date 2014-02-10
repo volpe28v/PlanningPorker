@@ -1,12 +1,9 @@
 var latest_login_list = [];
 var login_name = '';
-var suggest_obj = undefined;
 var LOGIN_COLOR_MAX = 9;
-var COOKIE_NAME = "dev_hub_name";
+var COOKIE_NAME = "planning_porker_name";
 var COOKIE_AVATAR = "planning_porker_avatar_url";
-var COOKIE_CSS_NAME = "dev_hub_css_name";
 var COOKIE_EXPIRES = 365;
-var CSS_DEFAULT_NAME = "bootstrap.min.css";
 var TITLE_ORG = document.title;
 var CODE_MIN_HEIGHT = 100;
 var CODE_OUT_ADJUST_HEIGHT = 200;
@@ -14,9 +11,9 @@ var CODE_INDEX_ADJUST_HEIGHT = 50;
 var CODE_ADJUST_HEIGHT = 100;
 var SHARE_MEMO_NUMBER = 15;
 
-// for share memo
 var writing_text = [];
 var text_logs = [];
+var socket = io.connect('/');
 
 $(function() {
   init_profile();
@@ -24,18 +21,7 @@ $(function() {
   init_sharememo();
   init_websocket();
 
-  var css_name = $.cookie(COOKIE_CSS_NAME) || CSS_DEFAULT_NAME;
-
-  if ( $.cookie(COOKIE_NAME) == null ){
-    /*
-    setTimeout(function(){
-      $('#name_in').modal("show");
-      setTimeout(function(){
-          $('#login_name').focus();
-        },500);
-      },500);
-    */
-  }else{
+  if ( $.cookie(COOKIE_NAME) != null ){
     login_name = $.cookie(COOKIE_NAME);
     $('#name').val(login_name);
     var avatar = $.cookie(COOKIE_AVATAR) || "";
@@ -44,8 +30,6 @@ $(function() {
 });
 
 function init_profile(){
-  var socket = io.connect('/');
- 
   $('#name_form').submit(function() {
     return false;
   });
@@ -72,10 +56,13 @@ function init_profile(){
     socket.emit('avatar', {url:avatar});
     return false;
   });
+
+  socket.on('set_name', function(name) {
+    $('#name').val(name);
+  });
 }
 
 function init_number(){
-  var socket = io.connect('/');
   $('.number-list').on('click', 'button', function(){
     console.log($(this).html());
 
@@ -105,7 +92,6 @@ function init_sharememo(){
 }
 
 function init_websocket(){
-  var socket = io.connect('/');
   socket.on('connect', function() {
     //console.log('connect');
     socket.emit('name', {name: $.cookie(COOKIE_NAME)});
@@ -114,19 +100,6 @@ function init_websocket(){
 
   socket.on('disconnect', function(){
     //console.log('disconnect');
-  });
-
-  // for chat
-  socket.on('message_own', function(data) {
-    prepend_own_msg(data);
-  });
-
-  socket.on('message', function(data) {
-    prepend_msg(data);
-  });
-
-  socket.on('remove_message', function(data) {
-    $('#msg_' + data.id).fadeOut();
   });
 
   socket.on('list', function(login_list) {
@@ -178,12 +151,6 @@ function init_websocket(){
 
     latest_login_list = login_list.sort(function(a,b){ return b.name.length - a.name.length });
     document.title = "(" + login_list.length + ") " + TITLE_ORG;
-  });
-
-  socket.on('latest_log', function(msgs) {
-    for ( var i = 0 ; i < msgs.length; i++){
-      append_msg(msgs[i])
-    }
   });
 
   $(".code").autofit({min_height: CODE_MIN_HEIGHT});
@@ -363,192 +330,6 @@ function init_websocket(){
     text_logs[data.no] = data.logs;
   });
 
-  socket.on('text_logs', function(text_logs){
-    var logs_dl = $("<dl/>")
-    for ( var i = 0; i < text_logs.length; ++i){
-      var no = text_logs[i].no == undefined ? 1 : text_logs[i].no; // マルチメモ対応前の救済処置。
-
-      var text_log_id = "text_log_id_" + text_logs[i]._id.toString();
-      var text_body = $.decora.to_html(text_logs[i].text);
-
-      var log_div = $("<div/>").attr("id", text_log_id);
-      var log_dt = $("<dt/>");
-      var writer_label = $("<span/>").addClass("label").text( text_logs[i].name + " at " + text_logs[i].date );
-      var icon = $("<i/>").addClass("icon-repeat");
-  
-      var restore_btn = $("<div/>").addClass("btn-group").append(
-                           $("<a/>").addClass("restore-log-button btn btn-mini dropdown-toggle")
-                                    .attr("data-toggle","dropdown")
-                                    .attr("data-no",i)
-                                    .html('<i class="icon-share-alt"></i> Restore to ').append(
-                             $("<span/>").addClass("caret"))).append(
-                           $("<ul/>").addClass("dropdown-menu"));
-
-      var favo_star = undefined;
-      if ( text_logs[i].favo ){
-        favo_star = $('<span/>').text('★').addClass("favo_star").toggle(
-          function(){
-            var target_log_id = text_logs[i]._id.toString();
-            return function(){
-              $(this).removeClass("favo_star")
-                     .addClass("no_favo_star")
-                     .text("☆")
-              socket.emit('remove_favo_text', target_log_id);
-            }
-          }(),
-          function(){
-            var target_log_id = text_logs[i]._id.toString();
-            return function(){
-              $(this).removeClass("no_favo_star")
-                     .addClass("favo_star")
-                     .text("★")
-              socket.emit('add_favo_text', target_log_id);
-            }
-          }()
-        )
-      }else{
-        favo_star = $('<span/>').text('☆').addClass("no_favo_star").toggle(
-          function(){
-            var target_log_id = text_logs[i]._id.toString();
-            return function(){
-              $(this).removeClass("no_favo_star")
-                     .addClass("favo_star")
-                     .text("★")
-              socket.emit('add_favo_text', target_log_id);
-            }
-          }(),
-          function(){
-            var target_log_id = text_logs[i]._id.toString();
-            return function(){
-              $(this).removeClass("favo_star")
-                     .addClass("no_favo_star")
-                     .text("☆")
-              socket.emit('remove_favo_text', target_log_id);
-            }
-          }()
-        )
-      }
-
-      var remove_btn = $('<a href="#" class="remove_text">x</a>').click(function(){
-        var target_dom_id = text_log_id
-        var target_log_id = text_logs[i]._id.toString();
-        return function(){
-          $('#' + target_dom_id).fadeOut("normal",function(){
-            socket.emit('remove_text', target_log_id);
-          });
-          return false;
-        }
-      }())
-
-      var log_dd = $("<dd/>")
-      var log_pre = $("<pre/>").html(text_body)
-
-      log_dt.append(
-        $("<table/>").append(
-          $("<tr/>").append(
-            $("<td/>").append(
-              favo_star)).append(
-            $("<td/>").append(
-              writer_label)).append(
-            $("<td/>").append(
-              restore_btn)))).append(
-        remove_btn);
-      log_dd.append(log_pre)
-      log_div.append(log_dt).append(log_dd)
-      logs_dl.append(log_div)
-    }
-    $('#auto_logs').empty();
-    $('#auto_logs').append(logs_dl);
-
-    $('.restore-log-button').click(function(){
-      var $restore_target_list = $(this).parent().children('ul');
-      var log_no = $(this).data('no');
-      var restore_text = text_logs[log_no].text;
-      $restore_target_list.empty();
-      setRestoreToLists($restore_target_list, log_no, restore_text);
-    });
-  });
-
-  socket.on('favo_logs', function(favo_logs){
-    var logs_dl = $("<dl/>")
-    for ( var i = 0; i < favo_logs.length; ++i){
-      var no = favo_logs[i].no == undefined ? 1 : favo_logs[i].no;
-      var text_log_id = "favo_log_id_" + favo_logs[i]._id.toString();
-      var text_body = $.decora.to_html(favo_logs[i].text);
-
-      var log_div = $("<div/>").attr("id", text_log_id)
-      var log_dt = $("<dt/>")
-      var writer_label = $("<span/>").addClass("label").addClass("label-warning").text( favo_logs[i].name + " at " + favo_logs[i].date )
-      var icon = $("<i/>").addClass("icon-repeat")
-
-      var restore_btn = $("<div/>").addClass("btn-group").append(
-                           $("<a/>").addClass("restore-favo-button btn btn-mini dropdown-toggle")
-                                    .attr("data-toggle","dropdown")
-                                    .attr("data-no",i)
-                                    .html('<i class="icon-share-alt"></i> Restore to ').append(
-                             $("<span/>").addClass("caret"))).append(
-                           $("<ul/>").addClass("dropdown-menu"));
-
-      var remove_btn = $('<a href="#" class="remove_text">x</a>').click(function(){
-        var target_dom_id = text_log_id
-        var target_log_id = favo_logs[i]._id.toString();
-        return function(){
-          $('#' + target_dom_id).fadeOut("normal",function(){
-            socket.emit('remove_favo_text', target_log_id);
-          });
-          return false;
-        }
-      }())
-
-      var log_dd = $("<dd/>")
-      var log_pre = $("<pre/>").html(text_body)
-
-      log_dt.append(
-        $("<table/>").append(
-          $("<tr/>").append(
-            $("<td/>").append(
-              writer_label)).append(
-            $("<td/>").append(
-              restore_btn)))).append(
-        remove_btn);
-
-      log_dd.append(log_pre)
-      log_div.append(log_dt).append(log_dd)
-      logs_dl.append(log_div)
-    }
-
-    $('#favo_logs').empty();
-    $('#favo_logs').append(logs_dl);
-
-    $('.restore-favo-button').click(function(){
-      var $restore_target_list = $(this).parent().children('ul');
-      var log_no = $(this).data('no');
-      var restore_text = favo_logs[log_no].text;
-
-      $restore_target_list.empty();
-      setRestoreToLists($restore_target_list, log_no, restore_text);
-    });
-  });
-
-  function setRestoreToLists($restore_target_list, log_no, restore_text){
-    $(".share-memo-tab:visible").each(function(){
-      var restore_target_no = $(this).data('no');
-      $restore_target_list.append(
-        $("<li/>").append(
-          $("<a/>").html(restore_target_no).click(function(){
-            return function(){
-              $('#share_memo_' + restore_target_no).children('.code').val(restore_text);
-              $('#share_memo_tab_' + restore_target_no).click();
-              $('html,body').animate({ scrollTop: 0 }, 'slow');
-
-              socket.emit('text',{no: restore_target_no, text: $('#share_memo_' + restore_target_no).children('.code').val()});
-            }();
-          })
-        )
-      );
-    });
-  }
-
   var code_prev = [];
 
   var writing_loop_timer = { id: -1, code_no: 0};
@@ -572,188 +353,10 @@ function init_websocket(){
     clearInterval(writing_loop_timer.id);
     writing_loop_timer = { id: -1, code_no: 0};
   }
-
-  $('#memo_number').bind('change',function(){
-    var num = $(this).val();
-    socket.emit('memo_number', {num: num});
-  });
-
-  socket.on('memo_number', function(data){
-    var num = data.num;
-    $('.share-memo-tab-elem').hide();
-    for (var i = 1; i <= num; i++){
-      $('#share_memo_tab_' + i).fadeIn("fast");
-      $('#share_memo_tab_' + i).css("display", "block");
-    }
-    $('#memo_number').val(num);
-  });
 };
-
-function suggest_start(list){
-  var suggest_list = []
-  for (var i = 0; i < list.length; ++i){
-    suggest_list.push("@" + list[i].name + "さん");
-  }
-
-  if (suggest_obj == undefined){
-    suggest_obj = new Suggest.LocalMulti("message", "suggest", suggest_list, {interval: 200, dispAllKey: false, prefix: true, highlight: true});
-  }else{
-    suggest_obj.candidateList = suggest_list;
-  }
-}
-
-function append_msg(data){
-  //TODO: System メッセージを非表示にする。
-  //      切り替え可能にするかは検討する。
-  if (data.name == "System") { return };
-  if (exist_msg(data)){ return };
-
-  var msg = get_msg_html(data);
-
-  $('#list').append(msg.li.addClass(msg.css));
-  msg.li.fadeIn();
-};
-
-function prepend_own_msg(data){
-  if (exist_msg(data)){ return };
-  var msg = get_msg_html(data);
-
-  $('#list').prepend(msg.li);
-  msg.li.addClass("text-highlight",0);
-  msg.li.slideDown('fast',function(){
-    msg.li.switchClass("text-highlight", msg.css, 500);
-  });
-};
-
-function send_remove_msg(id){
-  var socket = io.connect('/');
-
-  socket.emit('remove_message', {id:id});
-}
-
-function prepend_msg(data){
-  //TODO: System メッセージを非表示にする。
-  //      切り替え可能にするかは検討する。
-  if (data.name == "System") { return }
-  if (exist_msg(data)){ return };
-
-  var msg = get_msg_html(data);
-
-  $('#list').prepend(msg.li);
-  msg.li.addClass("text-highlight",0);
-  msg.li.slideDown('fast',function(){
-    msg.li.switchClass("text-highlight", msg.css, 500);
-  });
-};
-
-function exist_msg(data){
-  if (data.msg == undefined) { data.msg = ""; }
-  var id = '#msg_' + data._id.toString();
-  return $(id).size() > 0;
-}
-
-function get_msg_html(data){
-  if ( data.name == login_name ){
-    return {
-      li: get_msg_li_html(data).html(get_msg_body(data) + '<a class="remove_msg">x</a><span class="own_msg_date">' + data.date + '</span></td></tr></table>'),
-      css: "own_msg"
-    };
-  } else if (include_target_name(data.msg,login_name)){
-    return {
-      li: get_msg_li_html(data).html(get_msg_body(data) + ' <span class="target_msg_date">' + data.date + '</span></td></tr></table>'),
-      css: "target_msg"
-    };
-  }else{
-    return {
-      li: get_msg_li_html(data).html(get_msg_body(data) + ' <span class="date">' + data.date + '</span></td></tr></table>'),
-      css: null
-    };
-  }
-}
-
-function get_msg_li_html(data){
-  if ( data._id != undefined ){
-    return $('<li/>').attr('style','display:none').attr('id','msg_' + data._id.toString()).attr('data-id', data._id.toString());
-  }else{
-    return $('<li/>').attr('style','display:none');
-  }
-}
-
-function get_msg_body(data){
-  var date = new Date();
-  var id = date.getTime();
-
-  var name_class = "login-name";
-  var msg_class = "msg";
-
-  data.id = get_id(data.name)
-
-  if ( data.name == "System" ){
-    name_class = "login-name-system";
-    msg_class = "msg_ext"
-  }else if ( data.ext == true ){
-    name_class = "login-name-ext";
-    msg_class = "msg_ext"
-  }else if ( data.name == "Pomo" ){
-    name_class = "login-name-pomosys";
-    msg_class = "msg_pomo"
-  }else{
-    name_class = "login-name" + get_color_id_by_name_id(data.id);
-  }
-
-  return '<table><tr><td nowrap valign="top"><span class="login-name-base ' + name_class + '">' + data.name + '</span></td><td width="100%"><span class="msg_text ' + msg_class + '">' + decorate_msg(data.msg) + '</span>';
-}
 
 function get_color_id_by_name_id(id){
   if(id == 0){ return 0; } // no exist user.
   return id % LOGIN_COLOR_MAX + 1; // return 1 〜 LOGIN_COLOR_MAX
-}
-
-function decorate_msg(msg){
-  var deco_msg = msg;
-
-  deco_msg = deco_login_name(deco_msg)
-  deco_msg = deco_msg.replace(/((https?|ftp)(:\/\/[-_.!~*\'()a-zA-Z0-9;\/?:\@&=+\$,%#]+))/g,function(){ return '<a href="' + arguments[1] + '" target="_blank" >' + arguments[1] + '</a>' });
-  deco_msg = deco_msg.replace(/(SUCCESS|OK|YES)/, function(){ return ' <span class="label label-success">' + arguments[1] + '</span> '});
-  deco_msg = deco_msg.replace(/(FAILURE|NG|NO)/, function(){ return ' <span class="label label-important">' + arguments[1] + '</span> '});
-  deco_msg = deco_msg.replace(/[\(（](笑|爆|喜|嬉|楽|驚|泣|涙|悲|怒|厳|辛|苦|閃|汗|忙|急|輝)[\)）]/g, function(){ return '<span class="emo">' + arguments[1] + '</span>'});
-
-  return deco_msg;
-};
-
-function deco_login_name(msg){
-  var deco_msg = msg;
-  var name_reg = RegExp("@(.+?)さん", "g");
-  deco_msg = deco_msg.replace( name_reg, function(){
-    if (arguments[1] == login_name){
-      return '<span class="label label-important">' + arguments[0] + '</span>'
-    }else{
-      return '<span class="label label-info">' + arguments[0] + '</span>'
-    }
-  });
-  return deco_msg;
-}
-
-function include_target_name(msg,name){
-  var name_reg = RegExp("@" + name + "( |　|さん|$)");
-  if (msg.match(name_reg)){
-    return true;
-  }
-  return false;
-}
-
-function get_id(name){
-  for(var i = 0; i < latest_login_list.length; ++i ){
-    if ( latest_login_list[i].name == name ){
-      return latest_login_list[i].id;
-    }
-  }
-  return 0;
-}
-
-function change_style(css_file){
-  //console.log("change to " + css_file );
-  $("#devhub-style").attr('href','/stylesheets/' + css_file);
-  $.cookie(COOKIE_CSS_NAME,css_file,{ expires: COOKIE_EXPIRES });
 }
 
