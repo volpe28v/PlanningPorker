@@ -75,7 +75,7 @@ function init_number(){
   });
 
   $('.action-list').on('click', '.all-clear-btn', function(){
-    socket.emit('number-all-clear');
+    socket.emit('next_porker');
   });
 }
 
@@ -258,6 +258,12 @@ function init_websocket(){
     }
   });
 
+  function setToTable(html){
+    var table_html = "<table><tr><td>";
+    table_html += html.replace(/[\n]/g,"</td></tr><tr><td>");
+    return table_html += "</td></tr></table>";
+  }
+
   var update_timer = [];
   // for share memo
   socket.on('text', function(text_log) {
@@ -269,12 +275,6 @@ function init_websocket(){
     // 編集中の共有メモに他ユーザの変更が来たらフォーカスを外す
     if ( no == writing_loop_timer.code_no && login_name != text_log.name ){
       switchFixShareMemo($target, $target.children('.code').caretLine());
-    }
-
-    function setToTable(html){
-      var table_html = "<table><tr><td>";
-      table_html += html.replace(/[\n]/g,"</td></tr><tr><td>");
-      return table_html += "</td></tr></table>";
     }
 
     // for code_out
@@ -328,6 +328,28 @@ function init_websocket(){
 
   socket.on('text_logs_with_no', function(data){
     text_logs[data.no] = data.logs;
+  });
+
+  socket.on('latest_porker_log', function(data){
+    var $log_elems = "<ul>";
+    for (var i = 0; i < data.number_list.length; i++){
+      var number = "&nbsp;";
+      if (data.number_list[i].number != undefined && data.number_list[i].number != "" ){
+        number = data.number_list[i].number;
+      }
+
+      $log_elems += '<li><div class="porker-log-elem"><div class="name">' + data.number_list[i].name + '</div><div class="number">' + number + '</div></div></li>';
+    }
+    $log_elems += "</ul>";
+
+    $('.porker-log-list').prepend(
+      $('<div/>').addClass("row").css("display","none").append(
+        $('<div/>').addClass("col-sm-3").append(
+          $('<div/>').addClass("date").html(data.date)).append(
+          $('<div/>').addClass("text").html(setToTable($.decora.to_html(data.text))))).append(
+        $('<div/>').addClass("col-sm-9").append(
+          $log_elems)).fadeIn());
+
   });
 
   var code_prev = [];

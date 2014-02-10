@@ -5,6 +5,7 @@ var mongo_builder = require('./lib/mongo_builder');
 var app = require('./lib/server');
 var chat_log = require('./lib/chat_log');
 var text_log = require('./lib/text_log');
+var porker_log = require('./lib/porker_log');
 var client_info = require('./lib/client_info');
 var util = require('./lib/util');
 var bots = require('./lib/bots');
@@ -73,6 +74,7 @@ app.get('/notify', function(req, res) {
 mongo_builder.ready(db_name, function(db){
   chat_log.set_db(db);
   text_log.set_db(db);
+  porker_log.set_db(db);
   app.listen(port);
   console.log("listen!!!");
 });
@@ -149,12 +151,34 @@ io.sockets.on('connection', function(client) {
     client.broadcast.emit('list', client_info.ip_list());
   });
 
-  client.on('number-all-clear', function(){
+  client.on('next_porker', function(){
+    var p_log = {};
+    // 現在時間、テキスト、全員の得点を保存する
+    p_log.date = util.getFullDate(new Date());
+    // 全員の得点を取得
+    p_log.number_list = client_info.number_list();
     client_info.clear_all_number();
 
-    client.emit('list', client_info.ip_list());
-    client.broadcast.emit('list', client_info.ip_list());
-  });
+    // テキストは1番のみ使用している
+    text_log.get_latest(function(latest_texts){
+      var length = latest_texts.length;
+      for( var i = 0; i < length; i++){
+        if (latest_texts[i].no == 1){
+          // 1番のテキストを取得
+          p_log.text = latest_texts[i].text;
+          porker_log.add(p_log);
+
+          var current_text_log = { name: "", no: 1, text: "", date: util.getFullDate(new Date()) }
+
+          client.emit('list', client_info.ip_list());
+          client.broadcast.emit('list', client_info.ip_list());
+
+          client.emit('latest_porker_log', p_log);
+          client.broadcast.emit('latest_porker_log', p_log);
+        }
+      }
+    });
+ });
 
   client.on('avatar', function(avatar){
     client_info.set_avatar(client,avatar.url);

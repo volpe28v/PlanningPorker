@@ -48,12 +48,6 @@ a:hover {
   color: orange;
 }
 
-.date {
-  color: #ccc;
-  float: right;
-  margin-right: 14px;
-}
-
 .target_msg_date {
   color: wheat;
   float: right;
@@ -131,7 +125,7 @@ a:hover {
 
 .code-out {
   width: 100%;
-  min-height: 100px;
+  min-height: 50px;
   margin-top: 0px;
   line-height: 14px;
 }
@@ -454,6 +448,64 @@ a:hover {
 .avatar-img {
   max-width:60px;
   max-height:60px;
+}
+
+.porker-log-list .row{
+  background-color: #fafafa;
+  margin: 2px 4px;
+  padding: 4px;
+  border: 1px solid #ddd;
+  border-radius: 4px;        /* CSS3草案 */  
+  -webkit-border-radius: 4px;    /* Safari,Google Chrome用 */  
+  -moz-border-radius: 4px;   /* Firefox用 */  
+ 
+  -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2),0 1px 2px rgba(0, 0, 0, 0.05);
+  -moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2),0 1px 2px rgba(0, 0, 0, 0.05);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2),0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.porker-log-list ul {
+  list-style: none outside none;
+  float: left;
+  margin: 0 0 0 0;
+  padding: 0;
+  position: relative;
+}
+.porker-log-list ul li {
+  float: left;
+  margin-right: 5px;
+  padding: 2px;
+  border: 1px solid #999;
+  position: relative;
+  background-color: white;
+
+  border-radius: 4px;        /* CSS3草案 */  
+  -webkit-border-radius: 4px;    /* Safari,Google Chrome用 */  
+  -moz-border-radius: 4px;   /* Firefox用 */  
+ 
+  -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2),0 1px 2px rgba(0, 0, 0, 0.05);
+  -moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2),0 1px 2px rgba(0, 0, 0, 0.05);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2),0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.porker-log-elem {
+  min-width: 30px;
+  font-weight: bold;
+  font-size: 5px;
+  padding: 2px 2px;
+}
+
+.porker-log-elem .number {
+  font-size: 16px;
+}
+
+.porker-log-list .date{
+  color: #999;
+  font-size: 12px;
+}
+
+.porker-log-list .text{
+  font-size: 12px;
 }
 
 footer {
