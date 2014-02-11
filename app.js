@@ -103,6 +103,12 @@ io.sockets.on('connection', function(client) {
     }
   });
 
+  porker_log.get_logs(function(p_logs){
+    console.log("porker_logs: " + p_logs.length);
+    client.emit('porker_logs',p_logs.reverse());
+  });
+
+
   client.on('name', function(data) {
     client_info.set_name(client, data.name);
     if (data.name == null || data.name == ""){
