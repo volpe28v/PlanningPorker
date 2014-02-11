@@ -58,6 +58,7 @@ function init_profile(){
   });
 
   socket.on('set_name', function(name) {
+    login_name = name;
     $('#name').val(name);
   });
 }
@@ -330,7 +331,7 @@ function init_websocket(){
     text_logs[data.no] = data.logs;
   });
 
-  socket.on('latest_porker_log', function(data){
+  function prependPorkerLog(data){
     var $log_elems = "<ul>";
     for (var i = 0; i < data.number_list.length; i++){
       var number = "&nbsp;";
@@ -349,7 +350,16 @@ function init_websocket(){
           $('<div/>').addClass("text").html(setToTable($.decora.to_html(data.text))))).append(
         $('<div/>').addClass("col-sm-9").append(
           $log_elems)).fadeIn());
+  }
 
+  socket.on('latest_porker_log', function(data){
+    prependPorkerLog(data);
+  });
+
+  socket.on('porker_logs', function(p_logs){
+    for (var i = 0; i < p_logs.length; i++){
+      prependPorkerLog(p_logs[i]);
+    }
   });
 
   var code_prev = [];
