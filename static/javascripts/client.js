@@ -78,6 +78,13 @@ function init_number(){
   $('.action-list').on('click', '.all-clear-btn', function(){
     socket.emit('next_porker');
   });
+
+  $('.porker-log-list').on('click', '.remove-log', function(){
+    var $log_elem = $(this).closest('.row');
+    var id = $log_elem.data('id');
+    $log_elem.fadeOut();
+    socket.emit('remove_log', {id:id});
+  });  
 }
 
 function init_sharememo(){
@@ -344,12 +351,13 @@ function init_websocket(){
     $log_elems += "</ul>";
 
     $('.porker-log-list').prepend(
-      $('<div/>').addClass("row").css("display","none").append(
+      $('<div/>').addClass("row").attr('data-id', data._id).css("display","none").append(
         $('<div/>').addClass("col-sm-3").append(
           $('<div/>').addClass("date").html(data.date)).append(
           $('<div/>').addClass("text").html(setToTable($.decora.to_html(data.text))))).append(
         $('<div/>').addClass("col-sm-9").append(
-          $log_elems)).fadeIn());
+          $log_elems).append(
+          $('<a/>').addClass("remove-log").html("x"))).fadeIn());
   }
 
   socket.on('latest_porker_log', function(data){
@@ -360,6 +368,11 @@ function init_websocket(){
     for (var i = 0; i < p_logs.length; i++){
       prependPorkerLog(p_logs[i]);
     }
+  });
+
+  socket.on('remove_log', function(data) {
+    console.log("remove_log:" + data.id);
+    $("[data-id='" + data.id + "']").fadeOut();
   });
 
   var code_prev = [];
