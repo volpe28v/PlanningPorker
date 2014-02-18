@@ -144,9 +144,9 @@ io.sockets.on('connection', function(client) {
     });
   });
 
-  client.on('remove_message', function(data) {
-    client.broadcast.emit('remove_message', data);
-    chat_log.remove(data.id);
+  client.on('remove_log', function(data) {
+    client.broadcast.emit('remove_log', data);
+    porker_log.remove(data.id);
   });
 
   client.on('number', function(number_data){
@@ -163,7 +163,9 @@ io.sockets.on('connection', function(client) {
     p_log.date = util.getFullDate(new Date());
     // 全員の得点を取得
     p_log.number_list = client_info.number_list();
-    client_info.clear_all_number();
+    if(!client_info.clear_all_number()){
+      return;
+    }
 
     // テキストは1番のみ使用している
     text_log.get_latest(function(latest_texts){
@@ -181,6 +183,7 @@ io.sockets.on('connection', function(client) {
 
           client.emit('latest_porker_log', p_log);
           client.broadcast.emit('latest_porker_log', p_log);
+          break;
         }
       }
     });
