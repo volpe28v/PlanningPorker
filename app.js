@@ -163,7 +163,9 @@ io.sockets.on('connection', function(client) {
     p_log.date = util.getFullDate(new Date());
     // 全員の得点を取得
     p_log.number_list = client_info.number_list();
-    client_info.clear_all_number();
+    if(!client_info.clear_all_number()){
+      return;
+    }
 
     // テキストは1番のみ使用している
     text_log.get_latest(function(latest_texts){
