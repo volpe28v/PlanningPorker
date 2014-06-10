@@ -55,7 +55,6 @@ app.get('/notify', function(req, res) {
 
   chat_log.add(data,function(){
     io.sockets.emit('message', data);
-    client_info.send_growl_all(data);
     res.end('recved msg: ' + msg);
   });
 
@@ -65,7 +64,6 @@ app.get('/notify', function(req, res) {
       reply.date = util.getFullDate(new Date());
       chat_log.add(reply);
       io.sockets.emit('message', reply);
-      client_info.send_growl_all(reply);
     },reply.interval * 1000);
   });
 });
@@ -130,7 +128,6 @@ io.sockets.on('connection', function(client) {
     chat_log.add(data);
     client.emit('message_own', data);
     client.broadcast.emit('message', data);
-    client_info.send_growl_without(client, data);
 
     // for bot
     bots.action(data, function(reply){
@@ -139,7 +136,6 @@ io.sockets.on('connection', function(client) {
         chat_log.add(reply);
         client.emit('message_own', reply);
         client.broadcast.emit('message', reply);
-        client_info.send_growl_without(client, reply);
       },reply.interval * 1000);
     });
   });
