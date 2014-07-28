@@ -84,7 +84,7 @@ function init_number(){
     var id = $log_elem.data('id');
     $log_elem.fadeOut();
     socket.emit('remove_log', {id:id});
-  });  
+  });
 }
 
 function init_sharememo(){
@@ -120,7 +120,7 @@ function init_websocket(){
         break;
       }
     }
- 
+
     var out_list = "";
     var hide_sym = '<span class="glyphicon glyphicon-ok-circle"></span>';
     var is_all_same = true;
@@ -140,7 +140,12 @@ function init_websocket(){
           number = hide_sym;
         }
       }
-      var login_elem = '<li><div class="login-elem login-name' + get_color_id_by_name_id(login_list[i].id) + '"><div class="name">' + login_list[i].name + '</div><div class="number">' + number + '</div></div></li>';
+      var login_elem = undefined;
+      if (is_all_number){
+        login_elem = '<li><div class="login-elem login-name' + get_color_id_by_number(login_list[i].number) + '"><div class="name">' + login_list[i].name + '</div><div class="number">' + number + '</div></div></li>';
+      }else{
+        login_elem = '<li><div class="login-elem login-name' + get_color_id_by_name_id(login_list[i].id) + '"><div class="name">' + login_list[i].name + '</div><div class="number">' + number + '</div></div></li>';
+      }
       out_list += login_elem;
     }
     out_list = '<div class="list"><ul>' + out_list + "</ul></div>";
@@ -403,5 +408,26 @@ function init_websocket(){
 function get_color_id_by_name_id(id){
   if(id == 0){ return 0; } // no exist user.
   return id % LOGIN_COLOR_MAX + 1; // return 1 〜 LOGIN_COLOR_MAX
+}
+
+function get_color_id_by_number(number){
+  switch(number){
+    case "0":
+      return 1;
+    case "1":
+      return 2;
+    case "2":
+      return 3;
+    case "3":
+      return 4;
+    case "5":
+      return 5;
+    case "8":
+      return 6;
+    case "Big":
+      return 7;
+    case "?":
+      return 8;
+  }
 }
 
