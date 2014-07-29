@@ -413,19 +413,19 @@ function get_color_id_by_name_id(id){
 function get_color_id_by_number(number){
   switch(number){
     case "0":
-      return 1;
-    case "1":
       return 2;
+    case "1":
+      return 1;
     case "2":
       return 3;
     case "3":
-      return 4;
-    case "5":
       return 5;
+    case "5":
+      return 4;
     case "8":
-      return 6;
-    case "Big":
       return 7;
+    case "Big":
+      return 6;
     case "?":
       return 8;
   }
