@@ -2,7 +2,6 @@ html,body{
   width : 100%;
   height: 100%;
   margin : 0px;
-  background-color: white !important;
 }
 
 #chat_area{
@@ -509,10 +508,8 @@ a:hover {
 }
 
 .remove-log {
-  color: gray;
   font-size: 12px;
   float: right;
-  cursor: pointer;
 }
 
 footer {

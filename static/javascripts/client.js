@@ -362,7 +362,7 @@ function init_websocket(){
           $('<div/>').addClass("text").html(setToTable($.decora.to_html(data.text))))).append(
         $('<div/>').addClass("col-sm-9").append(
           $log_elems).append(
-          $('<a/>').addClass("remove-log").html("x"))).fadeIn());
+          $('<button/>').addClass("remove-log btn btn-xs btn-danger").html('<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>'))).fadeIn());
   }
 
   socket.on('latest_porker_log', function(data){
