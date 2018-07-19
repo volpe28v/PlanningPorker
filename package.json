@@ -2,16 +2,15 @@
   "name": "PlanningPorker",
   "version": "0.0.1",
   "dependencies": {
-    "express": "~> 2.5.1"
-  , "commander": "~> 0.5.2"
-  , "ejs": "~> 0.4.3"
-  , "socket.io": "~> 0.9.2"
-  , "mongodb": "0.9.8"
-  , "request": ""
+    "express": "~> 2.5.1",
+    "commander": "~> 0.5.2",
+    "ejs": "~> 0.4.3",
+    "socket.io": "~> 0.9.2",
+    "mongodb": "0.9.8",
+    "request": ""
   },
   "engines": {
-    "node": "0.9.6",
-    "npm": "1.1.41"
+    "node": "10.5.0",
+    "npm": "6.1.0"
   }
 }
-
