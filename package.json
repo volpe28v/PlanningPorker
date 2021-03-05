@@ -2,7 +2,7 @@
   "name": "PlanningPorker",
   "version": "0.0.1",
   "dependencies": {
-    "express": "~> 2.5.1",
+    "express": "~> 3.11.0",
     "commander": "2.9.0",
     "ejs": "2.5.6",
     "socket.io": "1.7.2",
